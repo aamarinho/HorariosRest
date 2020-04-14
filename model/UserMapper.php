@@ -8,10 +8,6 @@ class UserMapper {
         $this->db = PDOConnection::getInstance();
     }
 
-    public function registrarUsuario(Usuario $usuario) {
-        $stmt = $this->db->prepare("INSERT INTO usuario values (?,?,?,?,?,?,?)");
-        $stmt->execute(array($usuario->getEmail(), $usuario->getNombre(), $usuario->getApellidos(), $usuario->getDni(), $usuario->getFNac(), $usuario->getContrasena(), $usuario->getRol()));
-    }
 
     public function login($username, $passwd) { //cambiar
         $stmt = $this->db->prepare("SELECT count(email) FROM usuario where email=? and contraseña=?");
@@ -28,13 +24,22 @@ class UserMapper {
         return $resul;
     }
 
-    public function getEstudiantes()
-    {
+    public function getEstudiantes() {
         $stmt = $this->db->prepare("SELECT email,nombre,apellidos,fecha,tipo from usuario WHERE tipo=3");
+        $stmt->execute();
+        $resul = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $resul;//devuelve el array con la respuesta
+    }
+
+    public function getProfesores() {
+        $stmt = $this->db->prepare("SELECT email,nombre,apellidos,fecha,tipo from usuario WHERE tipo=2");
         $stmt->execute();
         $resul = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $resul;
     }
 
-
+    public function registrarUsuario(Usuario $usuario) {
+        $stmt = $this->db->prepare("INSERT INTO usuario values (?,?,?,?,?,?)");
+        $stmt->execute(array($usuario->getEmail(), $usuario->getNombre(), $usuario->getApellidos(), $usuario->getFecha(), $usuario->getTipo(), $usuario->getContrasena()));
+    }
 }

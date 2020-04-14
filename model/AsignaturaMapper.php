@@ -16,4 +16,8 @@ class AsignaturaMapper {
         return $resul;//devuelve el array con la respuesta
     }
 
+    public function registrarAsignatura(Asignatura $asignatura) {
+        $stmt = $this->db->prepare("INSERT INTO asignatura values (?,?,?,?,?)");
+        $stmt->execute(array($asignatura->getId(), $asignatura->getNombre(), $asignatura->getEmail(), $asignatura->getCurso(), $asignatura->getCuatrimestre()));
+    }
 }

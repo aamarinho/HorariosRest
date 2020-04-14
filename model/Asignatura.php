@@ -1,5 +1,4 @@
 <?php
-// file: model/Usuariorio.php
 
 class Asignatura implements JsonSerializable{
     private $id;

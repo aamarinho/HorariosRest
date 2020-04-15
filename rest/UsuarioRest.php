@@ -50,7 +50,7 @@ class UsuarioRest extends BaseRest {
     public function registrar(){
         $data = $_POST['usuario'];
         $data = json_decode($data,true);
-        $user = new Usuario($data['email'],$data['nombre'],$data['apellidos'],$data['fecha'],$data['tipo'],$data['contrasena']);
+        $user = new Usuario($data['email'],$data['nombre'],$data['apellidos'],$data['tipo'],$data['contrasena']);
 
         $this->userMapper->registrarUsuario($user);
         header($_SERVER['SERVER_PROTOCOL'].' 201 Ok');

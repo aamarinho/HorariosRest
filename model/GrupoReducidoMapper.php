@@ -15,4 +15,9 @@ class GrupoReducidoMapper {
         $resul = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $resul;//devuelve el array con la respuesta
     }
+
+    public function registrarGrupo(GrupoReducido $grupo) {
+        $stmt = $this->db->prepare("INSERT INTO gruporeducido values (?,?,?,?)");
+        $stmt->execute(array($grupo->getId(), $grupo->getIdAsignatura(), $grupo->getHoraInicio(), $grupo->getHoraFin()));
+    }
 }

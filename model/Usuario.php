@@ -5,15 +5,13 @@ class Usuario implements JsonSerializable {
     private $email;
     private $nombre;
     private $apellidos;
-    private $fecha;
     private $tipo;
     private $contrasena;
 
-    public function __construct($email=NULL,$nombre=NULL,$apellidos=NULL,$fecha=NULL,$tipo=NULL,$contrasena=NULL) {
+    public function __construct($email=NULL,$nombre=NULL,$apellidos=NULL,$tipo=NULL,$contrasena=NULL) {
         $this->email = $email;
         $this->nombre = $nombre;
         $this->apellidos = $apellidos;
-        $this->fecha = $fecha;
         $this->tipo=$tipo;
         $this->contrasena = $contrasena;
     }
@@ -26,16 +24,6 @@ class Usuario implements JsonSerializable {
     public function setApellidos($apellidos)
     {
         $this->apellidos = $apellidos;
-    }
-
-    public function getFecha()
-    {
-        return $this->fecha;
-    }
-
-    public function setFecha($fecha)
-    {
-        $this->fecha = $fecha;
     }
 
     public function getNombre()

@@ -23,7 +23,7 @@ class GrupoReducidoRest extends BaseRest {
     public function registrar(){
         $data = $_POST['grupo'];
         $data = json_decode($data,true);
-        $grupo = new GrupoReducido($data['id'],$data['id_asignatura'],$data['hora_inicio'],$data['hora_fin']);
+        $grupo = new GrupoReducido($data['id'],$data['id_asignatura'],$data['tipo'],$data['dia'],$data['hora_inicio'],$data['hora_fin'],$data['aula']);
 
         $this->grupoMapper->registrarGrupo($grupo);
         header($_SERVER['SERVER_PROTOCOL'].' 201 Ok');

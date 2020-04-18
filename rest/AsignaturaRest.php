@@ -31,6 +31,10 @@ class AsignaturaRest extends BaseRest
         header($_SERVER['SERVER_PROTOCOL'].' 201 Ok');
         header('Content-Type: application/json');
     }
+
+    public function prueba(){
+        print_r($_POST['asignaturas']);
+    }
 }
 
 $asignaturas = new AsignaturaRest();

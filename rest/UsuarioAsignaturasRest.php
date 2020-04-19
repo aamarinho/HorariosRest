@@ -35,9 +35,27 @@ class UsuarioAsignaturasRest extends BaseRest {
         header('Content-Type: application/json');
         echo(json_encode($usuariosasignaturas));
     }
+
+    public function eliminar($email,$id){
+        $resul = $this->usuarioAsignaturasMapper->eliminar($email,$id);
+        if($resul==1){
+            header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');
+            echo(json_encode(true));
+        }
+        else if($resul==0){
+            header($_SERVER['SERVER_PROTOCOL'].' 500 Internal Server Error');
+            echo("Error al ejecutar la sentencia de eliminacion");
+
+        }
+        else{
+            header($_SERVER['SERVER_PROTOCOL'].' 406 Not Acceptable');
+            echo("Error desconocido al ejecutar la sentencia de eliminacion");
+        }
+    }
 }
 $usuarioasignaturas = new UsuarioAsignaturasRest();
 URIDispatcher::getInstance()
     ->map("GET","/usuarioasignatura/get/$1", array($usuarioasignaturas,"getUsuariosAsignaturas"))
-    ->map("POST","/usuarioasignatura/registrar",array($usuarioasignaturas,"registrar"));
+    ->map("POST","/usuarioasignatura/registrar",array($usuarioasignaturas,"registrar"))
+    ->map("DELETE","/usuarioasignatura/eliminar/$1/$2",array($usuarioasignaturas,"eliminar"));
 

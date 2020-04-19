@@ -20,4 +20,11 @@ class UsuarioAsignaturasMapper {
         $resul = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $resul;
     }
+
+    public function eliminar($email,$id) {
+        $stmt = $this->db->prepare("DELETE from usuarioasignatura WHERE email=? AND id=?");
+        if ($stmt->execute(array($email,$id))) {
+            return 1;
+        } else return 0;
+    }
 }

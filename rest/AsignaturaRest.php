@@ -32,9 +32,6 @@ class AsignaturaRest extends BaseRest
         header('Content-Type: application/json');
     }
 
-    public function prueba(){
-        print_r($_POST['asignaturas']);
-    }
 }
 
 $asignaturas = new AsignaturaRest();

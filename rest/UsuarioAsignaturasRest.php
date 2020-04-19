@@ -28,8 +28,16 @@ class UsuarioAsignaturasRest extends BaseRest {
         header($_SERVER['SERVER_PROTOCOL'] . ' 201 Ok');
         header('Content-Type: application/json');
     }
+
+    public function getUsuariosAsignaturas($email){
+        $usuariosasignaturas = $this->usuarioAsignaturasMapper->getUsuariosAsignaturas($email);
+        header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
+        header('Content-Type: application/json');
+        echo(json_encode($usuariosasignaturas));
+    }
 }
 $usuarioasignaturas = new UsuarioAsignaturasRest();
 URIDispatcher::getInstance()
+    ->map("GET","/usuarioasignatura/get/$1", array($usuarioasignaturas,"getUsuariosAsignaturas"))
     ->map("POST","/usuarioasignatura/registrar",array($usuarioasignaturas,"registrar"));
 

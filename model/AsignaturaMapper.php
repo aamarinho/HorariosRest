@@ -16,8 +16,10 @@ class AsignaturaMapper {
         return $resul;//devuelve el array con la respuesta
     }
 
-    public function registrarAsignatura(Asignatura $asignatura) {
+    public function registrarAsignatura(Asignatura $asignatura) { //registra la asignatura, y además añade a la tabla usuarioasignatura el profesor junto con la asignatura asignada.
         $stmt = $this->db->prepare("INSERT INTO asignatura values (?,?,?,?,?)");
         $stmt->execute(array($asignatura->getId(), $asignatura->getNombre(), $asignatura->getEmail(), $asignatura->getCurso(), $asignatura->getCuatrimestre()));
+        $stmt2 = $this->db->prepare("INSERT INTO usuarioasignatura values (?,?)");
+        $stmt2->execute(array($asignatura->getEmail(),$asignatura->getId()));
     }
 }

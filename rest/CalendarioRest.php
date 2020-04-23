@@ -24,12 +24,20 @@ class CalendarioRest extends BaseRest {
             $gruporeducido = new GrupoReducido($value['id'],$value['id_asignatura'],$value['tipo'],$value['dia'],$value['hora_inicio'],$value['hora_fin'],$value['aula']);
             $this->calendarioMapper->registrar($gruporeducido);
         }
+        header($_SERVER['SERVER_PROTOCOL'] . ' 201 Ok');
+        header('Content-Type: application/json');
+    }
 
-        /*header($_SERVER['SERVER_PROTOCOL'] . ' 201 Ok');
-        header('Content-Type: application/json');*/
+    public function getCalendario($email){
+        $resul = $this->calendarioMapper->getCalendario($email);
+        header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
+        header('Content-Type: application/json');
+        echo(json_encode($resul));
     }
 }
 
 $calendario = new CalendarioRest();
 URIDispatcher::getInstance()
-    ->map("POST","/calendario/registrar",array($calendario,"registrar"));
+    ->map("POST","/calendario/registrar",array($calendario,"registrar"))
+    ->map("GET","/calendario/get/$1",array($calendario,"getCalendario"));
+

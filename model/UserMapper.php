@@ -38,6 +38,13 @@ class UserMapper {
         return $resul;
     }
 
+    public function getUsuarios() {
+        $stmt = $this->db->prepare("SELECT email,nombre,apellidos,tipo from usuario");
+        $stmt->execute();
+        $resul = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $resul;
+    }
+
     public function registrarUsuario(Usuario $usuario) {
         $stmt = $this->db->prepare("INSERT INTO usuario values (?,?,?,?,?)");
         $stmt->execute(array($usuario->getEmail(), $usuario->getNombre(), $usuario->getApellidos(), $usuario->getTipo(), $usuario->getContrasena()));

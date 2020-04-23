@@ -45,4 +45,11 @@ class CalendarioMapper {
             $stmt->execute(array($grupo->getId(), $fecha ,$grupo->getHoraInicio(),$grupo->getHoraFin(), $responsable ,$grupo->getAula()));
         }
     }
+
+    public function getCalendario($email) {
+        $stmt = $this->db->prepare("SELECT id_grupo,fecha,hora_inicio,hora_fin,responsable,aula FROM calendario INNER JOIN usuariogrupo ON calendario.id_grupo=usuariogrupo.id WHERE usuariogrupo.email=?");
+        $stmt->execute(array($email));
+        $resul = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $resul;
+    }
 }

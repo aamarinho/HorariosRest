@@ -2,22 +2,58 @@
 
 class Calendario implements JsonSerializable {
     private $id;
+    private $nombre;
     private $idgrupo;
+    private $idasignatura;
     private $fecha;
     private $hora_inicio;
     private $hora_fin;
     private $responsable;
     private $aula;
 
-    public function __construct($id = NULL, $idgrupo = NULL, $fecha = NULL, $hora_inicio = NULL, $hora_fin = NULL,$responsable = NULL, $aula = NULL)
+    public function __construct($id = NULL, $nombre = NULL,$idgrupo = NULL, $idasignatura = NULL,$fecha = NULL, $hora_inicio = NULL, $hora_fin = NULL,$responsable = NULL, $aula = NULL)
     {
         $this->id = $id;
+        $this->nombre = $nombre;
         $this->idgrupo = $idgrupo;
+        $this->idasignatura = $idasignatura;
         $this->fecha = $fecha;
         $this->hora_inicio = $hora_inicio;
         $this->hora_fin = $hora_fin;
         $this->responsable = $responsable;
         $this->aula = $aula;
+    }
+
+    /**
+     * @return null
+     */
+    public function getNombre()
+    {
+        return $this->nombre;
+    }
+
+    /**
+     * @param null $nombre
+     */
+    public function setNombre($nombre)
+    {
+        $this->nombre = $nombre;
+    }
+
+    /**
+     * @return null
+     */
+    public function getIdasignatura()
+    {
+        return $this->idasignatura;
+    }
+
+    /**
+     * @param null $idasignatura
+     */
+    public function setIdasignatura($idasignatura)
+    {
+        $this->idasignatura = $idasignatura;
     }
 
     /**

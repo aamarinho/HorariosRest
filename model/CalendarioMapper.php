@@ -52,4 +52,11 @@ class CalendarioMapper {
         $resul = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $resul;
     }
+
+    public function getEventos() {
+        $stmt = $this->db->prepare("SELECT id,nombre,id_grupo,id_asignatura,fecha,hora_inicio,hora_fin,responsable,aula from calendario");
+        $stmt->execute();
+        $resul = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $resul;
+    }
 }

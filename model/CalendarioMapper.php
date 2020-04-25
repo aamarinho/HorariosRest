@@ -59,4 +59,14 @@ class CalendarioMapper {
         $resul = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $resul;
     }
+
+    public function registrarActividadDocente(Calendario $calendario) { //registra la asignatura, y además añade a la tabla usuarioasignatura el profesor junto con la asignatura asignada.
+        $stmt = $this->db->prepare("SELECT asignatura.id FROM asignatura INNER JOIN gruporeducido ON gruporeducido.id_asignatura=asignatura.id WHERE gruporeducido.id=?");
+        $stmt->execute(array($calendario->getIdgrupo()));
+        $asignatura = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $stmt = $this->db->prepare("INSERT INTO calendario values ('',?,?,?,?,?,?,?,?)");
+        $stmt->execute(array($calendario->getNombre(),$calendario->getIdgrupo(),$asignatura['id'],  $calendario->getFecha(), $calendario->getHoraInicio(), $calendario->getHoraFin(),$calendario->getResponsable(),$calendario->getAula()));
+    }
+
 }

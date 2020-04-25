@@ -41,11 +41,22 @@ class CalendarioRest extends BaseRest {
         header('Content-Type: application/json');
         echo(json_encode($resul));
     }
+
+    public function registrarActividadDocente() {
+        $data = $_POST['calendario'];
+        $data = json_decode($data, true);
+        $calendario = new Calendario('',$data['nombre'],$data['id_grupo'],'',$data['fecha'],$data['hora_inicio'],$data['hora_fin'],$data['responsable'],$data['aula']);
+        $this->calendarioMapper->registrarActividadDocente($calendario);
+
+        header($_SERVER['SERVER_PROTOCOL'] . ' 201 Ok');
+        header('Content-Type: application/json');
+    }
 }
 
 $calendario = new CalendarioRest();
 URIDispatcher::getInstance()
     ->map("POST","/calendario/registrar",array($calendario,"registrar"))
     ->map("GET","/calendario/get/$1",array($calendario,"getCalendario"))
-    ->map("GET","/calendario/getall",array($calendario,"getEventos"));
+    ->map("GET","/calendario/getall",array($calendario,"getEventos"))
+    ->map("POST","/calendario/registraractividaddocente",array($calendario,"registrarActividadDocente"));
 

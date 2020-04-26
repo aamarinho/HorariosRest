@@ -72,6 +72,23 @@ class UsuarioRest extends BaseRest {
         echo(json_encode($estudiantes));*/
     }
 
+    public function eliminar($email){
+        $resul = $this->userMapper->eliminar($email);
+        if($resul==1){
+            header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');
+            echo(json_encode(true));
+        }
+        else if($resul==0){
+            header($_SERVER['SERVER_PROTOCOL'].' 500 Internal Server Error');
+            echo("Error al ejecutar la sentencia de eliminacion");
+
+        }
+        else{
+            header($_SERVER['SERVER_PROTOCOL'].' 406 Not Acceptable');
+            echo("Error desconocido al ejecutar la sentencia de eliminacion");
+        }
+    }
+
 }
 
 // URI-MAPPING for this Rest endpoint
@@ -82,4 +99,5 @@ URIDispatcher::getInstance()
     ->map("GET","/usuario/profesores/",array($userRest,"getProfesores"))
     ->map("GET","/usuario/usuarios/",array($userRest,"getUsuarios"))
     ->map("GET","/usuario/get/estudiantes/$1", array($userRest,"getEstudiantesProfesor"))
-    ->map("POST","/usuario/registro/",array($userRest,"registrar"));
+    ->map("POST","/usuario/registro/",array($userRest,"registrar"))
+    ->map("DELETE","/usuario/eliminar/$1",array($userRest,"eliminar"));;

@@ -50,7 +50,14 @@ class UserMapper {
         $stmt->execute(array($usuario->getEmail(), $usuario->getNombre(), $usuario->getApellidos(), $usuario->getTipo(), $usuario->getContrasena()));
     }
 
-    public function getEstudiantesProfesor($email) {
+    public function eliminar($email) {
+        $stmt = $this->db->prepare("DELETE from usuario WHERE email=?");
+        if ($stmt->execute(array($email))) {
+            return 1;
+        } else return 0;
+    }
+
+    public function getEstudiantesProfesor($email) {//REVISAAAAAAAAAAAR
 
         $stmt = $this->db->prepare("SELECT asignatura.id FROM asignatura INNER JOIN usuarioasignatura ON usuarioasignatura.id=asignatura.id  INNER JOIN usuario ON usuarioasignatura.email=usuario.email WHERE usuario.email=?");
         $stmt->execute(array($email));

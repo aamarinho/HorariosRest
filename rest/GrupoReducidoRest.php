@@ -30,9 +30,27 @@ class GrupoReducidoRest extends BaseRest {
         header('Content-Type: application/json');
     }
 
+    public function eliminar($id){
+        $resul = $this->grupoMapper->eliminar($id);
+        if($resul==1){
+            header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');
+            echo(json_encode(true));
+        }
+        else if($resul==0){
+            header($_SERVER['SERVER_PROTOCOL'].' 500 Internal Server Error');
+            echo("Error al ejecutar la sentencia de eliminacion");
+
+        }
+        else{
+            header($_SERVER['SERVER_PROTOCOL'].' 406 Not Acceptable');
+            echo("Error desconocido al ejecutar la sentencia de eliminacion");
+        }
+    }
+
 }
 
 $grupoRest = new GrupoReducidoRest();
 URIDispatcher::getInstance()
     ->map("GET","/grupo/grupos",array($grupoRest,"getGrupos"))
-    ->map("POST","/grupo/registro",array($grupoRest,"registrar"));
+    ->map("POST","/grupo/registro",array($grupoRest,"registrar"))
+    ->map("DELETE","/grupo/eliminar/$1",array($grupoRest,"eliminar"));

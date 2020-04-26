@@ -20,4 +20,11 @@ class GrupoReducidoMapper {
         $stmt = $this->db->prepare("INSERT INTO gruporeducido values (?,?,?,?,?,?,?)");
         $stmt->execute(array($grupo->getId(), $grupo->getIdAsignatura(), $grupo->getTipo(),$grupo->getDia(),$grupo->getHoraInicio(), $grupo->getHoraFin(),$grupo->getAula()));
     }
+
+    public function eliminar($id) {
+        $stmt = $this->db->prepare("DELETE from gruporeducido WHERE id=?");
+        if ($stmt->execute(array($id))) {
+            return 1;
+        } else return 0;
+    }
 }

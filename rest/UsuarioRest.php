@@ -100,4 +100,4 @@ URIDispatcher::getInstance()
     ->map("GET","/usuario/usuarios/",array($userRest,"getUsuarios"))
     ->map("GET","/usuario/get/estudiantes/$1", array($userRest,"getEstudiantesProfesor"))
     ->map("POST","/usuario/registro/",array($userRest,"registrar"))
-    ->map("DELETE","/usuario/eliminar/$1",array($userRest,"eliminar"));;
+    ->map("DELETE","/usuario/eliminar/$1",array($userRest,"eliminar"));

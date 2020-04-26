@@ -32,11 +32,28 @@ class AsignaturaRest extends BaseRest
         header('Content-Type: application/json');
     }
 
+    public function eliminar($id){
+        $resul = $this->asignaturaMapper->eliminar($id);
+        if($resul==1){
+            header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');
+            echo(json_encode(true));
+        }
+        else if($resul==0){
+            header($_SERVER['SERVER_PROTOCOL'].' 500 Internal Server Error');
+            echo("Error al ejecutar la sentencia de eliminacion");
+
+        }
+        else{
+            header($_SERVER['SERVER_PROTOCOL'].' 406 Not Acceptable');
+            echo("Error desconocido al ejecutar la sentencia de eliminacion");
+        }
+    }
 }
 
 $asignaturas = new AsignaturaRest();
 URIDispatcher::getInstance()
     ->map("GET","/asignatura/asignaturas", array($asignaturas,"getAsignaturas"))
-    ->map("POST","/asignatura/registro",array($asignaturas,"registrar"));
+    ->map("POST","/asignatura/registro",array($asignaturas,"registrar"))
+    ->map("DELETE","/asignatura/eliminar/$1",array($asignaturas,"eliminar"));
 
 

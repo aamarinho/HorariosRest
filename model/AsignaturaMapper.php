@@ -22,4 +22,11 @@ class AsignaturaMapper {
         $stmt2 = $this->db->prepare("INSERT INTO usuarioasignatura values (?,?)");
         $stmt2->execute(array($asignatura->getEmail(),$asignatura->getId()));
     }
+
+    public function eliminar($id) {
+        $stmt = $this->db->prepare("DELETE from asignatura WHERE id=?");
+        if ($stmt->execute(array($id))) {
+            return 1;
+        } else return 0;
+    }
 }

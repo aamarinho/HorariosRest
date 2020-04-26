@@ -49,4 +49,24 @@ class UserMapper {
         $stmt = $this->db->prepare("INSERT INTO usuario values (?,?,?,?,?)");
         $stmt->execute(array($usuario->getEmail(), $usuario->getNombre(), $usuario->getApellidos(), $usuario->getTipo(), $usuario->getContrasena()));
     }
+
+    public function getEstudiantesProfesor($email) {
+
+        $stmt = $this->db->prepare("SELECT asignatura.id FROM asignatura INNER JOIN usuarioasignatura ON usuarioasignatura.id=asignatura.id  INNER JOIN usuario ON usuarioasignatura.email=usuario.email WHERE usuario.email=?");
+        $stmt->execute(array($email));
+        $resul = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $estudiantes=array();
+        foreach ($resul as $value){
+            $stmt = $this->db->prepare("SELECT usuario.email,usuario.nombre,usuario.apellidos FROM usuario INNER JOIN usuarioasignatura ON usuarioasignatura.email=usuario.email INNER JOIN asignatura ON usuarioasignatura.id=asignatura.id WHERE asignatura.id=? AND usuario.tipo=3");
+            $stmt->execute(array($value['id']));
+            $estudiante = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            foreach($estudiante as $e){
+                if(!array_key_exists($e['email'],$estudiantes)){
+                    array_push($estudiantes,$estudiante);
+                }
+            }
+
+        }
+        return $estudiantes;
+    }
 }

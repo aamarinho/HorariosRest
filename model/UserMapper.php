@@ -10,7 +10,7 @@ class UserMapper {
 
 
     public function login($username, $passwd) { //cambiar
-        $stmt = $this->db->prepare("SELECT count(email) FROM usuario where email=? and contraseña=?");
+        $stmt = $this->db->prepare("SELECT count(email) FROM usuario where email=? and contrasena=?");
         $stmt->execute(array($username, $passwd));
         if ($stmt->fetchColumn() > 0) {
             return true;
@@ -48,6 +48,13 @@ class UserMapper {
     public function registrarUsuario(Usuario $usuario) {
         $stmt = $this->db->prepare("INSERT INTO usuario values (?,?,?,?,?)");
         $stmt->execute(array($usuario->getEmail(), $usuario->getNombre(), $usuario->getApellidos(), $usuario->getTipo(), $usuario->getContrasena()));
+    }
+
+    public function editarUsuario(Usuario $usuario) {
+        $stmt = $this->db->prepare("UPDATE usuario set nombre=?,apellidos=?,tipo=?,contrasena=? where email=?");
+        if($stmt->execute(array($usuario->getNombre(), $usuario->getApellidos(), $usuario->getTipo(), $usuario->getContrasena(),$usuario->getEmail()))){
+         return true;
+        } else return false;
     }
 
     public function eliminar($email) {

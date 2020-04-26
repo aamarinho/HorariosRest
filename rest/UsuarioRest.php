@@ -64,12 +64,29 @@ class UsuarioRest extends BaseRest {
         header('Content-Type: application/json');
     }
 
+    public function editar(){
+        $data = $_POST['usuario'];
+        $data = json_decode($data,true);
+        $usuario = new Usuario($data['email'],$data['nombre'],$data['apellidos'],$data['tipo'],$data['contrasena']);
+
+        $this->userMapper->editarUsuario($usuario);
+        header($_SERVER['SERVER_PROTOCOL'].' 201 Ok');
+        header('Content-Type: application/json');
+    }
+
     public function getEstudiantesProfesor($email){
         $estudiantes = $this->userMapper->getEstudiantesProfesor($email);
         print_r($estudiantes);
         /*header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
         header('Content-Type: application/json');
         echo(json_encode($estudiantes));*/
+    }
+
+    public function getUsuario($email){
+        $usuario = $this->userMapper->getUsuarioByEmail($email);
+        header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
+        header('Content-Type: application/json');
+        echo(json_encode($usuario));
     }
 
     public function eliminar($email){
@@ -99,5 +116,7 @@ URIDispatcher::getInstance()
     ->map("GET","/usuario/profesores/",array($userRest,"getProfesores"))
     ->map("GET","/usuario/usuarios/",array($userRest,"getUsuarios"))
     ->map("GET","/usuario/get/estudiantes/$1", array($userRest,"getEstudiantesProfesor"))
+    ->map("GET","/usuario/getusuarios/$1", array($userRest,"getUsuario"))
     ->map("POST","/usuario/registro/",array($userRest,"registrar"))
+    ->map("POST","/usuario/editar/",array($userRest,"editar"))
     ->map("DELETE","/usuario/eliminar/$1",array($userRest,"eliminar"));

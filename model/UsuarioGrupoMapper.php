@@ -29,7 +29,7 @@ class UsuarioGrupoMapper {
     }
 
     public function getUsuariosGruposEstudiante($email,$email2) {
-        $stmt = $this->db->prepare("SELECT asignatura.id FROM asignatura INNER JOIN usuarioasignatura ON usuarioasignatura.id=asignatura.id  INNER JOIN usuario ON usuarioasignatura.email=usuario.email WHERE usuario.email=?");
+        $stmt = $this->db->prepare("SELECT DISTINCT asignatura.id FROM usuarioasignatura INNER JOIN asignatura ON asignatura.id=usuarioasignatura.id WHERE asignatura.email=?");
         $stmt->execute(array($email));
         $resul = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $grupos=array();
@@ -38,13 +38,8 @@ class UsuarioGrupoMapper {
             $stmt = $this->db->prepare("SELECT usuariogrupo.id FROM usuariogrupo INNER JOIN gruporeducido ON gruporeducido.id=usuariogrupo.id INNER JOIN asignatura ON asignatura.id=gruporeducido.id_asignatura WHERE usuariogrupo.email=? AND asignatura.id=?");
             $stmt->execute(array($email2,$value['id']));
             $grupo = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            $temp=0;
             foreach ($grupo as $g){
-                if(!array_key_exists($temp,$filtro)){
-                    array_push($filtro,$g['id']);
-                    array_push($grupos,$g);
-                }
-                $temp++;
+                array_push($grupos,$g);
             }
         }
         return $grupos;
@@ -60,13 +55,9 @@ class UsuarioGrupoMapper {
             $stmt = $this->db->prepare("SELECT DISTINCT gruporeducido.id,gruporeducido.tipo,gruporeducido.id_asignatura FROM usuariogrupo INNER JOIN gruporeducido ON gruporeducido.id=usuariogrupo.id INNER JOIN asignatura ON asignatura.id=gruporeducido.id_asignatura WHERE asignatura.id=?");
             $stmt->execute(array($value['id']));
             $grupo = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            $temp=0;
+
             foreach ($grupo as $g){
-                if(!array_key_exists($temp,$filtro)){
-                    array_push($filtro,$g['id']);
-                    array_push($grupos,$g);
-                }
-                $temp++;
+                array_push($grupos,$g);
             }
         }
         return $grupos;

@@ -76,10 +76,9 @@ class UsuarioRest extends BaseRest {
 
     public function getEstudiantesProfesor($email){
         $estudiantes = $this->userMapper->getEstudiantesProfesor($email);
-        print_r($estudiantes);
-        /*header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
+        header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
         header('Content-Type: application/json');
-        echo(json_encode($estudiantes));*/
+        echo(json_encode($estudiantes));
     }
 
     public function getUsuario($email){

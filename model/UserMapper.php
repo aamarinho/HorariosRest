@@ -70,16 +70,19 @@ class UserMapper {
         $stmt->execute(array($email));
         $resul = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $estudiantes=array();
+        $filtro=array();
         foreach ($resul as $value){
             $stmt = $this->db->prepare("SELECT usuario.email,usuario.nombre,usuario.apellidos FROM usuario INNER JOIN usuarioasignatura ON usuarioasignatura.email=usuario.email INNER JOIN asignatura ON usuarioasignatura.id=asignatura.id WHERE asignatura.id=? AND usuario.tipo=3");
             $stmt->execute(array($value['id']));
             $estudiante = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            foreach($estudiante as $e){
-                if(!array_key_exists($e['email'],$estudiantes)){
-                    array_push($estudiantes,$estudiante);
+            $temp=0;
+            foreach ($estudiante as $e){
+                if(!array_key_exists($temp,$filtro)){
+                    array_push($filtro,$e['email']);
+                    array_push($estudiantes,$e);
                 }
+                $temp++;
             }
-
         }
         return $estudiantes;
     }

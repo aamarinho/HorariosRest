@@ -37,7 +37,7 @@ class BaseRest {
 			$userMapper = new UserMapper();
 			if ($userMapper->login($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
                 $usuarioBD = $userMapper->getUsuarioByEmail($_SERVER['PHP_AUTH_USER']);
-                return new Usuario($usuarioBD['email'],$usuarioBD['nombre'],$usuarioBD['apellidos'],$usuarioBD['tipo'],$usuarioBD['contraseña']);
+                return new Usuario($usuarioBD['email'],$usuarioBD['nombre'],$usuarioBD['apellidos'],$usuarioBD['tipo'],$usuarioBD['contrasena']);
 
             } else {
 				header($_SERVER['SERVER_PROTOCOL'].' 401 Unauthorized');

@@ -64,7 +64,7 @@ class UserMapper {
         } else return 0;
     }
 
-    public function getEstudiantesProfesor($email) {//REVISAAAAAAAAAAAR
+    public function getEstudiantesProfesor($email) {
 
         $stmt = $this->db->prepare("SELECT asignatura.id FROM asignatura INNER JOIN usuarioasignatura ON usuarioasignatura.id=asignatura.id  INNER JOIN usuario ON usuarioasignatura.email=usuario.email WHERE usuario.email=?");
         $stmt->execute(array($email));

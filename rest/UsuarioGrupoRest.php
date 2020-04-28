@@ -22,15 +22,15 @@ class UsuarioGrupoRest extends BaseRest {
         echo(json_encode($usuariosgrupos));
     }
 
-    public function getUsuariosGruposEstudiante($email,$email2){
-        $estudiantes = $this->usuarioGrupoMapper->getUsuariosGruposEstudiante($email,$email2);
+    public function getUsuariosGruposEstudiante($asignatura,$email2){
+        $estudiantes = $this->usuarioGrupoMapper->getUsuariosGruposEstudiante($asignatura,$email2);
         header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
         header('Content-Type: application/json');
         echo(json_encode($estudiantes));
     }
 
-    public function getUsuariosGruposProfesor($email){
-        $estudiantes = $this->usuarioGrupoMapper->getUsuariosGruposProfesor($email);
+    public function getUsuariosGruposProfesor($asignatura){
+        $estudiantes = $this->usuarioGrupoMapper->getUsuariosGruposProfesor($asignatura);
         header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
         header('Content-Type: application/json');
         echo(json_encode($estudiantes));

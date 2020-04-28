@@ -64,20 +64,13 @@ class UserMapper {
         } else return 0;
     }
 
-    public function getEstudiantesProfesor($email) {
-
-        $stmt = $this->db->prepare("SELECT DISTINCT asignatura.id FROM usuarioasignatura INNER JOIN asignatura ON asignatura.id=usuarioasignatura.id WHERE asignatura.email=?");
-        $stmt->execute(array($email));
-        $resul = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    public function getEstudiantesProfesor($asignatura) {
+        $stmt = $this->db->prepare("SELECT usuario.email,usuario.nombre,usuario.apellidos FROM usuario INNER JOIN usuarioasignatura ON usuarioasignatura.email=usuario.email INNER JOIN asignatura ON usuarioasignatura.id=asignatura.id WHERE asignatura.id=? AND usuario.tipo=3");
+        $stmt->execute(array($asignatura));
+        $estudiante = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $estudiantes=array();
-        $filtro=array();
-        foreach ($resul as $value){
-            $stmt = $this->db->prepare("SELECT usuario.email,usuario.nombre,usuario.apellidos FROM usuario INNER JOIN usuarioasignatura ON usuarioasignatura.email=usuario.email INNER JOIN asignatura ON usuarioasignatura.id=asignatura.id WHERE asignatura.id=? AND usuario.tipo=3");
-            $stmt->execute(array($value['id']));
-            $estudiante = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            foreach ($estudiante as $e){
-                array_push($estudiantes,$e);
-            }
+        foreach ($estudiante as $e){
+            array_push($estudiantes,$e);
         }
         return $estudiantes;
     }

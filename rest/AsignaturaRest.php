@@ -22,6 +22,13 @@ class AsignaturaRest extends BaseRest
         echo(json_encode($asignaturas));
     }
 
+    public function getAsignaturasProfesor($email){
+        $asignaturas = $this->asignaturaMapper->getAsignaturasProfesor($email);
+        header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
+        header('Content-Type: application/json');
+        echo(json_encode($asignaturas));
+    }
+
     public function registrar(){
         $data = $_POST['asignatura'];
         $data = json_decode($data,true);
@@ -54,6 +61,7 @@ $asignaturas = new AsignaturaRest();
 URIDispatcher::getInstance()
     ->map("GET","/asignatura/asignaturas", array($asignaturas,"getAsignaturas"))
     ->map("POST","/asignatura/registro",array($asignaturas,"registrar"))
+    ->map("GET","/asignatura/get/$1", array($asignaturas,"getAsignaturasProfesor"))
     ->map("DELETE","/asignatura/eliminar/$1",array($asignaturas,"eliminar"));
 
 

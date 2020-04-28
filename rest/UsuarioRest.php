@@ -74,8 +74,8 @@ class UsuarioRest extends BaseRest {
         header('Content-Type: application/json');
     }
 
-    public function getEstudiantesProfesor($email){
-        $estudiantes = $this->userMapper->getEstudiantesProfesor($email);
+    public function getEstudiantesProfesor($asignatura){
+        $estudiantes = $this->userMapper->getEstudiantesProfesor($asignatura);
         header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
         header('Content-Type: application/json');
         echo(json_encode($estudiantes));
@@ -114,7 +114,7 @@ URIDispatcher::getInstance()
     ->map("GET","/usuario/estudiantes/",array($userRest,"getEstudiantes"))
     ->map("GET","/usuario/profesores/",array($userRest,"getProfesores"))
     ->map("GET","/usuario/usuarios/",array($userRest,"getUsuarios"))
-    ->map("GET","/usuario/get/estudiantes/$1", array($userRest,"getEstudiantesProfesor"))
+    ->map("GET","/usuario/get/estudiantes/$1/", array($userRest,"getEstudiantesProfesor"))
     ->map("GET","/usuario/getusuarios/$1", array($userRest,"getUsuario"))
     ->map("POST","/usuario/registro/",array($userRest,"registrar"))
     ->map("POST","/usuario/editar/",array($userRest,"editar"))

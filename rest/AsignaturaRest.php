@@ -22,6 +22,13 @@ class AsignaturaRest extends BaseRest
         echo(json_encode($asignaturas));
     }
 
+    public function getAsignaturaById($id) {
+        $asignaturas = $this->asignaturaMapper->getAsignaturaById($id);
+        header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
+        header('Content-Type: application/json');
+        echo(json_encode($asignaturas));
+    }
+
     public function getAsignaturasProfesor($email){
         $asignaturas = $this->asignaturaMapper->getAsignaturasProfesor($email);
         header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
@@ -35,6 +42,16 @@ class AsignaturaRest extends BaseRest
         $asignatura = new Asignatura($data['id'],$data['nombre'],$data['email'],$data['curso'],$data['cuatrimestre']);
 
         $this->asignaturaMapper->registrarAsignatura($asignatura);
+        header($_SERVER['SERVER_PROTOCOL'].' 201 Ok');
+        header('Content-Type: application/json');
+    }
+
+    public function editarAsignatura(){
+        $data = $_POST['asignatura'];
+        $data = json_decode($data,true);
+        $asignatura = new Asignatura($data['id'],$data['nombre'],$data['email'],$data['curso'],$data['cuatrimestre']);
+
+        $this->asignaturaMapper->editarAsignatura($asignatura);
         header($_SERVER['SERVER_PROTOCOL'].' 201 Ok');
         header('Content-Type: application/json');
     }
@@ -60,8 +77,10 @@ class AsignaturaRest extends BaseRest
 $asignaturas = new AsignaturaRest();
 URIDispatcher::getInstance()
     ->map("GET","/asignatura/asignaturas", array($asignaturas,"getAsignaturas"))
+    ->map("GET","/asignatura/getasignatura/$1", array($asignaturas,"getAsignaturaById"))
     ->map("POST","/asignatura/registro",array($asignaturas,"registrar"))
     ->map("GET","/asignatura/get/$1", array($asignaturas,"getAsignaturasProfesor"))
+    ->map("POST","/asignatura/editar/",array($asignaturas,"editarAsignatura"))
     ->map("DELETE","/asignatura/eliminar/$1",array($asignaturas,"eliminar"));
 
 

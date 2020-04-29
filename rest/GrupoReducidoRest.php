@@ -20,12 +20,29 @@ class GrupoReducidoRest extends BaseRest {
         echo(json_encode($gruposArray));
     }
 
+    public function getGrupoById($id) {
+        $grupos = $this->grupoMapper->getGrupoById($id);
+        header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
+        header('Content-Type: application/json');
+        echo(json_encode($grupos));
+    }
+
     public function registrar(){
         $data = $_POST['grupo'];
         $data = json_decode($data,true);
         $grupo = new GrupoReducido($data['id'],$data['id_asignatura'],$data['tipo'],$data['dia'],$data['hora_inicio'],$data['hora_fin'],$data['aula']);
 
         $this->grupoMapper->registrarGrupo($grupo);
+        header($_SERVER['SERVER_PROTOCOL'].' 201 Ok');
+        header('Content-Type: application/json');
+    }
+
+    public function editarGrupo(){
+        $data = $_POST['grupo'];
+        $data = json_decode($data,true);
+        $grupo = new GrupoReducido($data['id'],$data['id_asignatura'],$data['tipo'],$data['dia'],$data['hora_inicio'],$data['hora_fin'],$data['aula']);
+
+        $this->grupoMapper->editarGrupo($grupo);
         header($_SERVER['SERVER_PROTOCOL'].' 201 Ok');
         header('Content-Type: application/json');
     }
@@ -52,5 +69,7 @@ class GrupoReducidoRest extends BaseRest {
 $grupoRest = new GrupoReducidoRest();
 URIDispatcher::getInstance()
     ->map("GET","/grupo/grupos",array($grupoRest,"getGrupos"))
+    ->map("GET","/grupo/getgrupo/$1", array($grupoRest,"getGrupoById"))
     ->map("POST","/grupo/registro",array($grupoRest,"registrar"))
+    ->map("POST","/grupo/editar/",array($grupoRest,"editarGrupo"))
     ->map("DELETE","/grupo/eliminar/$1",array($grupoRest,"eliminar"));

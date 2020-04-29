@@ -16,9 +16,23 @@ class GrupoReducidoMapper {
         return $resul;//devuelve el array con la respuesta
     }
 
+    public function getGrupoById($id) {
+        $stmt = $this->db->prepare("SELECT gruporeducido.id,gruporeducido.id_asignatura,gruporeducido.tipo,gruporeducido.dia,gruporeducido.hora_inicio,gruporeducido.hora_fin,gruporeducido.aula,asignatura.nombre FROM gruporeducido INNER JOIN asignatura ON asignatura.id=gruporeducido.id_asignatura WHERE gruporeducido.id=?");
+        $stmt->execute(array($id));
+        $resul = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $resul;
+    }
+
     public function registrarGrupo(GrupoReducido $grupo) {
         $stmt = $this->db->prepare("INSERT INTO gruporeducido values (?,?,?,?,?,?,?)");
         $stmt->execute(array($grupo->getId(), $grupo->getIdAsignatura(), $grupo->getTipo(),$grupo->getDia(),$grupo->getHoraInicio(), $grupo->getHoraFin(),$grupo->getAula()));
+    }
+
+    public function editarGrupo(GrupoReducido $grupo) {
+        $stmt = $this->db->prepare("UPDATE gruporeducido set id_asignatura=?,tipo=?,dia=?,hora_inicio=?,hora_fin=?,aula=? where id=?");
+        if($stmt->execute(array($grupo->getIdAsignatura(), $grupo->getTipo(), $grupo->getDia(),$grupo->getHoraInicio(),$grupo->getHoraFin(),$grupo->getAula(),$grupo->getId()))){
+            return true;
+        } else return false;
     }
 
     public function eliminar($id) {

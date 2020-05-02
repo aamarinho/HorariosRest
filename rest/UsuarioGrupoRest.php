@@ -50,6 +50,20 @@ class UsuarioGrupoRest extends BaseRest {
         header('Content-Type: application/json');
     }
 
+    public function registrarImportacion() {
+        $data = $_POST['grupos'];
+        $data2 = $_POST['email'];
+        $data = json_decode($data, true);
+        $data2 = json_decode($data2, true);
+        foreach ($data as $value){
+            $usuarioGrupo = new UsuarioGrupo($data2, $value);
+            $this->usuarioGrupoMapper->registrar($usuarioGrupo);
+        }
+
+        header($_SERVER['SERVER_PROTOCOL'] . ' 201 Ok');
+        header('Content-Type: application/json');
+    }
+
     public function eliminar($email,$id){
         $resul = $this->usuarioGrupoMapper->eliminar($email,$id);
         if($resul==1){
@@ -73,5 +87,6 @@ URIDispatcher::getInstance()
     ->map("GET","/usuariogrupo/getgrupos/$1/$2", array($usuariogrupo,"getUsuariosGruposEstudiante"))
     ->map("GET","/usuariogrupo/getgrupos/profesor/$1/", array($usuariogrupo,"getUsuariosGruposProfesor"))
     ->map("POST","/usuariogrupo/registrar",array($usuariogrupo,"registrar"))
+    ->map("POST","/usuariogrupo/registrar/importacion",array($usuariogrupo,"registrarImportacion"))
     ->map("DELETE","/usuariogrupo/eliminar/$1/$2",array($usuariogrupo,"eliminar"));
 

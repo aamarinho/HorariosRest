@@ -27,6 +27,13 @@ class GrupoReducidoRest extends BaseRest {
         echo(json_encode($grupos));
     }
 
+    public function countGrupos($idasignatura) {
+        $grupos = $this->grupoMapper->countGrupos($idasignatura);
+        header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
+        header('Content-Type: application/json');
+        echo(json_encode($grupos));
+    }
+
     public function registrar(){
         $data = $_POST['grupo'];
         $data = json_decode($data,true);
@@ -70,6 +77,7 @@ $grupoRest = new GrupoReducidoRest();
 URIDispatcher::getInstance()
     ->map("GET","/grupo/grupos",array($grupoRest,"getGrupos"))
     ->map("GET","/grupo/getgrupo/$1", array($grupoRest,"getGrupoById"))
+    ->map("GET","/grupo/countgrupos/$1", array($grupoRest,"countGrupos"))
     ->map("POST","/grupo/registro",array($grupoRest,"registrar"))
     ->map("POST","/grupo/editar/",array($grupoRest,"editarGrupo"))
     ->map("DELETE","/grupo/eliminar/$1",array($grupoRest,"eliminar"));

@@ -29,6 +29,20 @@ class UsuarioAsignaturasRest extends BaseRest {
         header('Content-Type: application/json');
     }
 
+    public function registrarAsignaturas() {//importacion
+        $data = $_POST['asignaturas'];
+        $data2 = $_POST['email'];
+        $data = json_decode($data, true);
+        $data2 = json_decode($data2, true);
+        foreach ($data as $value){
+            $usuarioAsignatura = new UsuarioAsignaturas($data2, $value);
+            $this->usuarioAsignaturasMapper->registrar($usuarioAsignatura);
+        }
+
+        header($_SERVER['SERVER_PROTOCOL'] . ' 201 Ok');
+        header('Content-Type: application/json');
+    }
+
     public function registrarUsuarioAsignatura() {
         $data = $_POST['asignatura'];
         $data2 = $_POST['email'];
@@ -70,6 +84,7 @@ $usuarioasignaturas = new UsuarioAsignaturasRest();
 URIDispatcher::getInstance()
     ->map("GET","/usuarioasignatura/get/$1", array($usuarioasignaturas,"getUsuariosAsignaturas"))
     ->map("POST","/usuarioasignatura/registrar",array($usuarioasignaturas,"registrar"))
+    ->map("POST","/usuarioasignatura/registrar/importacion",array($usuarioasignaturas,"registrarAsignaturas"))
     ->map("POST","/usuarioasignatura/registrar/individual",array($usuarioasignaturas,"registrarUsuarioAsignatura"))
     ->map("DELETE","/usuarioasignatura/eliminar/$1/$2",array($usuarioasignaturas,"eliminar"));
 

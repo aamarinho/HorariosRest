@@ -23,6 +23,13 @@ class GrupoReducidoMapper {
         return $resul;
     }
 
+    public function countGrupos($idasignatura) {
+        $stmt = $this->db->prepare("SELECT COUNT(gruporeducido.id) AS contador FROM gruporeducido INNER JOIN asignatura ON gruporeducido.id_asignatura=asignatura.id WHERE asignatura.id=? AND gruporeducido.id NOT LIKE '%GG'");
+        $stmt->execute(array($idasignatura));
+        $resul = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $resul;
+    }
+
     public function registrarGrupo(GrupoReducido $grupo) {
         $stmt = $this->db->prepare("INSERT INTO gruporeducido values (?,?,?,?,?,?,?)");
         $stmt->execute(array($grupo->getId(), $grupo->getIdAsignatura(), $grupo->getTipo(),$grupo->getDia(),$grupo->getHoraInicio(), $grupo->getHoraFin(),$grupo->getAula()));

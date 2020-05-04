@@ -74,4 +74,15 @@ class UserMapper {
         }
         return $estudiantes;
     }
+
+    public function getEstudiantesProfesorByEmail($email) {
+        $stmt = $this->db->prepare("SELECT DISTINCT usuario.email,usuario.nombre,usuario.apellidos FROM usuario INNER JOIN usuarioasignatura ON usuarioasignatura.email=usuario.email INNER JOIN asignatura ON usuarioasignatura.id=asignatura.id WHERE asignatura.email=? AND usuario.tipo=3");
+        $stmt->execute(array($email));
+        $estudiante = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $estudiantes=array();
+        foreach ($estudiante as $e){
+            array_push($estudiantes,$e);
+        }
+        return $estudiantes;
+    }
 }

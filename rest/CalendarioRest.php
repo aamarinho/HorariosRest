@@ -35,6 +35,13 @@ class CalendarioRest extends BaseRest {
         echo(json_encode($resul));
     }
 
+    public function getActividadDocente($id){
+        $usuario = $this->calendarioMapper->getActividadDocenteById($id);
+        header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
+        header('Content-Type: application/json');
+        echo(json_encode($usuario));
+    }
+
     public function getEventos(){
         $resul = $this->calendarioMapper->getEventos();
         header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');
@@ -51,6 +58,23 @@ class CalendarioRest extends BaseRest {
         header($_SERVER['SERVER_PROTOCOL'] . ' 201 Ok');
         header('Content-Type: application/json');
     }
+
+    public function eliminar($id){
+        $resul = $this->calendarioMapper->eliminar($id);
+        if($resul==1){
+            header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');
+            echo(json_encode(true));
+        }
+        else if($resul==0){
+            header($_SERVER['SERVER_PROTOCOL'].' 500 Internal Server Error');
+            echo("Error al ejecutar la sentencia de eliminacion");
+
+        }
+        else{
+            header($_SERVER['SERVER_PROTOCOL'].' 406 Not Acceptable');
+            echo("Error desconocido al ejecutar la sentencia de eliminacion");
+        }
+    }
 }
 
 $calendario = new CalendarioRest();
@@ -58,5 +82,7 @@ URIDispatcher::getInstance()
     ->map("POST","/calendario/registrar",array($calendario,"registrar"))
     ->map("GET","/calendario/get/$1",array($calendario,"getCalendario"))
     ->map("GET","/calendario/getall",array($calendario,"getEventos"))
-    ->map("POST","/calendario/registraractividaddocente",array($calendario,"registrarActividadDocente"));
+    ->map("GET","/calendario/get/actividaddocente/$1",array($calendario,"getActividadDocente"))
+    ->map("POST","/calendario/registraractividaddocente",array($calendario,"registrarActividadDocente"))
+    ->map("DELETE","/calendario/eliminar/$1",array($calendario,"eliminar"));
 

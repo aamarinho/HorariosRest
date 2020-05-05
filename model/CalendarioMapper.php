@@ -69,4 +69,18 @@ class CalendarioMapper {
         $stmt->execute(array($calendario->getNombre(),$calendario->getIdgrupo(),$asignatura['id'],  $calendario->getFecha(), $calendario->getHoraInicio(), $calendario->getHoraFin(),$calendario->getResponsable(),$calendario->getAula()));
     }
 
+    public function getActividadDocenteById($id) {
+        $stmt = $this->db->prepare("SELECT * FROM calendario where id=?");
+        $stmt->execute(array($id));
+        $resul = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $resul;
+    }
+
+    public function eliminar($id) {
+        $stmt = $this->db->prepare("DELETE from calendario WHERE id=?");
+        if ($stmt->execute(array($id))) {
+            return 1;
+        } else return 0;
+    }
+
 }

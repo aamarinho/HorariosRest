@@ -60,7 +60,7 @@ class CalendarioMapper {
         return $resul;
     }
 
-    public function registrarActividadDocente(Calendario $calendario) { //registra la asignatura, y además añade a la tabla usuarioasignatura el profesor junto con la asignatura asignada.
+    public function registrarActividadDocente(Calendario $calendario) {
         $stmt = $this->db->prepare("SELECT asignatura.id FROM asignatura INNER JOIN gruporeducido ON gruporeducido.id_asignatura=asignatura.id WHERE gruporeducido.id=?");
         $stmt->execute(array($calendario->getIdgrupo()));
         $asignatura = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -81,6 +81,17 @@ class CalendarioMapper {
         if ($stmt->execute(array($id))) {
             return 1;
         } else return 0;
+    }
+
+    public function editarActividadDocente(Calendario $calendario) {
+        $stmt = $this->db->prepare("SELECT asignatura.id FROM asignatura INNER JOIN gruporeducido ON gruporeducido.id_asignatura=asignatura.id WHERE gruporeducido.id=?");
+        $stmt->execute(array($calendario->getIdgrupo()));
+        $asignatura = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $stmt = $this->db->prepare("UPDATE calendario set nombre=?,id_grupo=?,id_asignatura=?,fecha=?,hora_inicio=?,hora_fin=?,responsable=?,aula=? where id=?");
+        if($stmt->execute(array($calendario->getNombre(), $calendario->getIdgrupo(), $asignatura['id'], $calendario->getFecha(),$calendario->getHoraInicio(),$calendario->getHoraFin(),$calendario->getResponsable(),$calendario->getAula(),$calendario->getId()))){
+            return true;
+        } else return false;
     }
 
 }

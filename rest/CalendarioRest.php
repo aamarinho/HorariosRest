@@ -59,6 +59,16 @@ class CalendarioRest extends BaseRest {
         header('Content-Type: application/json');
     }
 
+    public function editarActividadDocente(){
+        $data = $_POST['calendario'];
+        $data = json_decode($data,true);
+        $calendario = new Calendario($data['id'],$data['nombre'],$data['id_grupo'],$data['id_asignatura'],$data['fecha'],$data['hora_inicio'],$data['hora_fin'],$data['responsable'],$data['aula']);
+
+        $this->calendarioMapper->editarActividadDocente($calendario);
+        header($_SERVER['SERVER_PROTOCOL'].' 201 Ok');
+        header('Content-Type: application/json');
+    }
+
     public function eliminar($id){
         $resul = $this->calendarioMapper->eliminar($id);
         if($resul==1){
@@ -84,5 +94,6 @@ URIDispatcher::getInstance()
     ->map("GET","/calendario/getall",array($calendario,"getEventos"))
     ->map("GET","/calendario/get/actividaddocente/$1",array($calendario,"getActividadDocente"))
     ->map("POST","/calendario/registraractividaddocente",array($calendario,"registrarActividadDocente"))
+    ->map("POST","/calendario/editar/actividaddocente",array($calendario,"editarActividadDocente"))
     ->map("DELETE","/calendario/eliminar/$1",array($calendario,"eliminar"));
 

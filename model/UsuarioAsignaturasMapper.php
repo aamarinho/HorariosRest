@@ -21,6 +21,13 @@ class UsuarioAsignaturasMapper {
         return $resul;
     }
 
+    public function getUsuariosAsignaturasSinAsignados($email) {
+        $stmt = $this->db->prepare("SELECT DISTINCT asignatura.id, asignatura.nombre, asignatura.curso FROM asignatura INNER JOIN usuarioasignatura ON usuarioasignatura.id=asignatura.id WHERE asignatura.id NOT IN (SELECT usuarioasignatura.id FROM usuarioasignatura WHERE usuarioasignatura.email=?)");
+        $stmt->execute(array($email));
+        $resul = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $resul;
+    }
+
     public function eliminar($email,$id) {
         $stmt = $this->db->prepare("DELETE from usuarioasignatura WHERE email=? AND id=?");
         if ($stmt->execute(array($email,$id))) {

@@ -16,6 +16,14 @@ class UsuarioGrupoMapper {
         return $resul;
     }
 
+    public function getGruposSinAsignados($email) {
+        $stmt = $this->db->prepare("SELECT DISTINCT gruporeducido.id,gruporeducido.tipo,gruporeducido.id_asignatura FROM gruporeducido INNER JOIN usuariogrupo ON usuariogrupo.id=gruporeducido.id INNER JOIN usuarioasignatura ON usuarioasignatura.email=usuariogrupo.email
+                                            WHERE usuariogrupo.id NOT IN (SELECT usuariogrupo.id FROM usuariogrupo WHERE usuariogrupo.email=?) AND gruporeducido.id_asignatura IN (SELECT usuarioasignatura.id FROM usuarioasignatura WHERE usuarioasignatura.email=?) GROUP BY usuariogrupo.id");
+        $stmt->execute(array($email,$email));
+        $resul = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $resul;
+    }
+
     public function registrar(UsuarioGrupo $usuariogrupo) {
         $stmt = $this->db->prepare("INSERT INTO usuariogrupo values (?,?)");
         $stmt->execute(array($usuariogrupo->getEmail(), $usuariogrupo->getId()));

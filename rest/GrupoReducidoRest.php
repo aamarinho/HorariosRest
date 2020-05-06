@@ -20,6 +20,13 @@ class GrupoReducidoRest extends BaseRest {
         echo(json_encode($gruposArray));
     }
 
+    public function getGruposSinAsignados($email){
+        $gruposArray = $this->grupoMapper->getGruposSinAsignados($email);
+        header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');
+        header('Content-Type: application/json');
+        echo(json_encode($gruposArray));
+    }
+
     public function getGrupoById($id) {
         $grupos = $this->grupoMapper->getGrupoById($id);
         header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');

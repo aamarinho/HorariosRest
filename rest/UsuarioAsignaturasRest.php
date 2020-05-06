@@ -63,6 +63,14 @@ class UsuarioAsignaturasRest extends BaseRest {
         echo(json_encode($usuariosasignaturas));
     }
 
+    public function getUsuariosAsignaturasSinAsignados($email){
+        $usuariosasignaturas = $this->usuarioAsignaturasMapper->getUsuariosAsignaturasSinAsignados($email);
+        header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
+        header('Content-Type: application/json');
+        echo(json_encode($usuariosasignaturas));
+    }
+
+
     public function eliminar($email,$id){
         $resul = $this->usuarioAsignaturasMapper->eliminar($email,$id);
         if($resul==1){
@@ -83,6 +91,7 @@ class UsuarioAsignaturasRest extends BaseRest {
 $usuarioasignaturas = new UsuarioAsignaturasRest();
 URIDispatcher::getInstance()
     ->map("GET","/usuarioasignatura/get/$1", array($usuarioasignaturas,"getUsuariosAsignaturas"))
+    ->map("GET","/usuarioasignatura/get/sinasignadas/$1", array($usuarioasignaturas,"getUsuariosAsignaturasSinAsignados"))
     ->map("POST","/usuarioasignatura/registrar",array($usuarioasignaturas,"registrar"))
     ->map("POST","/usuarioasignatura/registrar/importacion",array($usuarioasignaturas,"registrarAsignaturas"))
     ->map("POST","/usuarioasignatura/registrar/individual",array($usuarioasignaturas,"registrarUsuarioAsignatura"))

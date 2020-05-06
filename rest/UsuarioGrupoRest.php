@@ -22,6 +22,14 @@ class UsuarioGrupoRest extends BaseRest {
         echo(json_encode($usuariosgrupos));
     }
 
+    public function getUsuariosGruposSinAsignados($email){
+        $usuariosgrupos = $this->usuarioGrupoMapper->getGruposSinAsignados($email);
+        header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
+        header('Content-Type: application/json');
+        echo(json_encode($usuariosgrupos));
+    }
+
+
     public function getUsuariosGruposEstudiante($asignatura,$email2){
         $estudiantes = $this->usuarioGrupoMapper->getUsuariosGruposEstudiante($asignatura,$email2);
         header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
@@ -84,6 +92,7 @@ class UsuarioGrupoRest extends BaseRest {
 $usuariogrupo = new UsuarioGrupoRest();
 URIDispatcher::getInstance()
     ->map("GET","/usuariogrupo/get/$1", array($usuariogrupo,"getUsuariosGrupos"))
+    ->map("GET","/usuariogrupo/get/sinasignados/$1", array($usuariogrupo,"getUsuariosGruposSinAsignados"))
     ->map("GET","/usuariogrupo/getgrupos/$1/$2", array($usuariogrupo,"getUsuariosGruposEstudiante"))
     ->map("GET","/usuariogrupo/getgrupos/profesor/$1/", array($usuariogrupo,"getUsuariosGruposProfesor"))
     ->map("POST","/usuariogrupo/registrar",array($usuariogrupo,"registrar"))

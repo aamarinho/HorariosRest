@@ -13,7 +13,7 @@ class GrupoReducidoMapper {
         $stmt = $this->db->prepare("SELECT id,id_asignatura,tipo,dia,hora_inicio,hora_fin,aula from gruporeducido");
         $stmt->execute();
         $resul = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return $resul;//devuelve el array con la respuesta
+        return $resul;
     }
 
     public function getGrupoById($id) {
@@ -48,4 +48,6 @@ class GrupoReducidoMapper {
             return 1;
         } else return 0;
     }
+
+
 }

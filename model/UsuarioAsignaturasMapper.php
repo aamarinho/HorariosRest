@@ -17,17 +17,17 @@ class UsuarioAsignaturasMapper {
     }
 
     public function registrarImportacion(UsuarioAsignaturas $usuarioasignaturas) {
-        $stmt = $this->db->prepare("INSERT INTO usuarioasignatura values (?,?)");
+        $stmt = $this->db->prepare("INSERT INTO usuarioasignatura values (?,?)");//se inserta en la tabla usuarioasignatura cada asignatura junto con el profesor responsable
         $stmt->execute(array($usuarioasignaturas->getEmail(), $usuarioasignaturas->getId()));
 
-        $stmt = $this->db->prepare("UPDATE asignatura set email=? where id=?");
+        $stmt = $this->db->prepare("UPDATE asignatura set email=? where id=?");//se establece como responsable de la asignatura al profesor
         $stmt->execute(array($usuarioasignaturas->getEmail(), $usuarioasignaturas->getId()));
 
-        $stmt = $this->db->prepare("SELECT gruporeducido.id FROM gruporeducido WHERE gruporeducido.id_asignatura=?");
+        $stmt = $this->db->prepare("SELECT gruporeducido.id FROM gruporeducido WHERE gruporeducido.id_asignatura=?");//se obtienen todos los grupos pertenecientes a esa asignatura
         $stmt->execute(array($usuarioasignaturas->getId()));
         $resul = $stmt->fetchAll(PDO::FETCH_ASSOC);
         foreach($resul as $grupo){
-            $stmt = $this->db->prepare("INSERT INTO usuariogrupo values (?,?)");
+            $stmt = $this->db->prepare("INSERT INTO usuariogrupo values (?,?)");//se inserta en la tabla usuariogrupo cada grupo obtenido junto con el profesor
             $stmt->execute(array($usuarioasignaturas->getEmail(), $grupo['id']));
         }
     }

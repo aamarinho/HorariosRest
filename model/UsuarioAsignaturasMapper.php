@@ -9,9 +9,27 @@ class UsuarioAsignaturasMapper {
         $this->db = PDOConnection::getInstance();
     }
 
+
+
     public function registrar(UsuarioAsignaturas $usuarioasignaturas) {
         $stmt = $this->db->prepare("INSERT INTO usuarioasignatura values (?,?)");
         $stmt->execute(array($usuarioasignaturas->getEmail(), $usuarioasignaturas->getId()));
+    }
+
+    public function registrarImportacion(UsuarioAsignaturas $usuarioasignaturas) {
+        $stmt = $this->db->prepare("INSERT INTO usuarioasignatura values (?,?)");
+        $stmt->execute(array($usuarioasignaturas->getEmail(), $usuarioasignaturas->getId()));
+
+        $stmt = $this->db->prepare("UPDATE asignatura set email=? where id=?");
+        $stmt->execute(array($usuarioasignaturas->getEmail(), $usuarioasignaturas->getId()));
+
+        $stmt = $this->db->prepare("SELECT gruporeducido.id FROM gruporeducido WHERE gruporeducido.id_asignatura=?");
+        $stmt->execute(array($usuarioasignaturas->getId()));
+        $resul = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        foreach($resul as $grupo){
+            $stmt = $this->db->prepare("INSERT INTO usuariogrupo values (?,?)");
+            $stmt->execute(array($usuarioasignaturas->getEmail(), $grupo['id']));
+        }
     }
 
     public function getUsuariosAsignaturas($email) {

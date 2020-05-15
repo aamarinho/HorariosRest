@@ -43,6 +43,20 @@ class UsuarioAsignaturasRest extends BaseRest {
         header('Content-Type: application/json');
     }
 
+    public function registrarAsignaturasProfesor() {//importacionprofesores
+        $data = $_POST['asignaturas'];
+        $data2 = $_POST['email'];
+        $data = json_decode($data, true);
+        $data2 = json_decode($data2, true);
+        foreach ($data as $value){
+            $usuarioAsignatura = new UsuarioAsignaturas($data2, $value);
+            $this->usuarioAsignaturasMapper->registrarImportacion($usuarioAsignatura);
+        }
+
+        header($_SERVER['SERVER_PROTOCOL'] . ' 201 Ok');
+        header('Content-Type: application/json');
+    }
+
     public function registrarUsuarioAsignatura() {
         $data = $_POST['asignatura'];
         $data2 = $_POST['email'];
@@ -94,6 +108,7 @@ URIDispatcher::getInstance()
     ->map("GET","/usuarioasignatura/get/sinasignadas/$1", array($usuarioasignaturas,"getUsuariosAsignaturasSinAsignados"))
     ->map("POST","/usuarioasignatura/registrar",array($usuarioasignaturas,"registrar"))
     ->map("POST","/usuarioasignatura/registrar/importacion",array($usuarioasignaturas,"registrarAsignaturas"))
+    ->map("POST","/usuarioasignatura/registrar/importacionprofesores",array($usuarioasignaturas,"registrarAsignaturasProfesor"))
     ->map("POST","/usuarioasignatura/registrar/individual",array($usuarioasignaturas,"registrarUsuarioAsignatura"))
     ->map("DELETE","/usuarioasignatura/eliminar/$1/$2",array($usuarioasignaturas,"eliminar"));
 

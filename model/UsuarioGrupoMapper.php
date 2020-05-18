@@ -47,9 +47,9 @@ class UsuarioGrupoMapper {
         return $grupos;
     }
 
-    public function getUsuariosGruposProfesor($asignatura) {
-        $stmt = $this->db->prepare("SELECT DISTINCT gruporeducido.id,gruporeducido.tipo,gruporeducido.id_asignatura FROM usuariogrupo INNER JOIN gruporeducido ON gruporeducido.id=usuariogrupo.id INNER JOIN asignatura ON asignatura.id=gruporeducido.id_asignatura WHERE asignatura.id=?");
-        $stmt->execute(array($asignatura));
+    public function getUsuariosGruposProfesor($asignatura,$email) {
+        $stmt = $this->db->prepare("SELECT DISTINCT gruporeducido.id,gruporeducido.tipo FROM gruporeducido WHERE gruporeducido.id_asignatura=? AND gruporeducido.id NOT IN (SELECT DISTINCT usuariogrupo.id FROM usuariogrupo INNER JOIN gruporeducido ON gruporeducido.id=usuariogrupo.id INNER JOIN asignatura ON asignatura.id=gruporeducido.id_asignatura WHERE usuariogrupo.email=? AND asignatura.id=? )");
+        $stmt->execute(array($asignatura,$email,$asignatura));
         $grupo = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $grupos=array();
         foreach ($grupo as $g){

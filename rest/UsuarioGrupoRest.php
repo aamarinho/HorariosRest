@@ -37,8 +37,8 @@ class UsuarioGrupoRest extends BaseRest {
         echo(json_encode($estudiantes));
     }
 
-    public function getUsuariosGruposProfesor($asignatura){
-        $estudiantes = $this->usuarioGrupoMapper->getUsuariosGruposProfesor($asignatura);
+    public function getUsuariosGruposProfesor($asignatura,$email){
+        $estudiantes = $this->usuarioGrupoMapper->getUsuariosGruposProfesor($asignatura,$email);
         header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
         header('Content-Type: application/json');
         echo(json_encode($estudiantes));
@@ -94,7 +94,7 @@ URIDispatcher::getInstance()
     ->map("GET","/usuariogrupo/get/$1", array($usuariogrupo,"getUsuariosGrupos"))
     ->map("GET","/usuariogrupo/get/sinasignados/$1", array($usuariogrupo,"getUsuariosGruposSinAsignados"))
     ->map("GET","/usuariogrupo/getgrupos/$1/$2", array($usuariogrupo,"getUsuariosGruposEstudiante"))
-    ->map("GET","/usuariogrupo/getgrupos/profesor/$1/", array($usuariogrupo,"getUsuariosGruposProfesor"))
+    ->map("GET","/usuariogrupo/getgrupos/profesor/$1/$2", array($usuariogrupo,"getUsuariosGruposProfesor"))
     ->map("POST","/usuariogrupo/registrar",array($usuariogrupo,"registrar"))
     ->map("POST","/usuariogrupo/registrar/importacion",array($usuariogrupo,"registrarImportacion"))
     ->map("DELETE","/usuariogrupo/eliminar/$1/$2",array($usuariogrupo,"eliminar"));

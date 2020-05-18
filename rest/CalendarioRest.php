@@ -49,6 +49,13 @@ class CalendarioRest extends BaseRest {
         echo(json_encode($resul));
     }
 
+    public function getGruposSinGenerar(){
+        $resul = $this->calendarioMapper->getGruposSinGenerar();
+        header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');
+        header('Content-Type: application/json');
+        echo(json_encode($resul));
+    }
+
     public function registrarActividadDocente() {
         $data = $_POST['calendario'];
         $data = json_decode($data, true);
@@ -92,6 +99,7 @@ URIDispatcher::getInstance()
     ->map("POST","/calendario/registrar",array($calendario,"registrar"))
     ->map("GET","/calendario/get/$1",array($calendario,"getCalendario"))
     ->map("GET","/calendario/getall",array($calendario,"getEventos"))
+    ->map("GET","/calendario/get/grupos/singenerar",array($calendario,"getGruposSinGenerar"))
     ->map("GET","/calendario/get/actividaddocente/$1",array($calendario,"getActividadDocente"))
     ->map("POST","/calendario/registraractividaddocente",array($calendario,"registrarActividadDocente"))
     ->map("POST","/calendario/editar/actividaddocente",array($calendario,"editarActividadDocente"))

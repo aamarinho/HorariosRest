@@ -60,6 +60,13 @@ class CalendarioMapper {
         return $resul;
     }
 
+    public function getGruposSinGenerar(){
+        $stmt = $this->db->prepare("SELECT gruporeducido.id,gruporeducido.tipo FROM gruporeducido WHERE gruporeducido.id NOT IN (SELECT DISTINCT calendario.id_grupo FROM calendario)");
+        $stmt->execute();
+        $resul = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $resul;
+    }
+
     public function registrarActividadDocente(Calendario $calendario) {
         $stmt = $this->db->prepare("SELECT asignatura.id FROM asignatura INNER JOIN gruporeducido ON gruporeducido.id_asignatura=asignatura.id WHERE gruporeducido.id=?");
         $stmt->execute(array($calendario->getIdgrupo()));

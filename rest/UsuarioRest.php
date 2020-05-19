@@ -64,6 +64,16 @@ class UsuarioRest extends BaseRest {
         header('Content-Type: application/json');
     }
 
+    public function registrarIndividual(){
+        $data = $_POST['usuario'];
+        $data = json_decode($data,true);
+        $user = new Usuario($data['email'],$data['nombre'],$data['apellidos'],$data['tipo'],$data['contrasena']);
+
+        $this->userMapper->registrarUsuarioIndividual($user);
+        header($_SERVER['SERVER_PROTOCOL'].' 201 Ok');
+        header('Content-Type: application/json');
+    }
+
     public function editar(){
         $data = $_POST['usuario'];
         $data = json_decode($data,true);
@@ -125,5 +135,6 @@ URIDispatcher::getInstance()
     ->map("GET","/usuario/get/estudiantes/profesor/$1/", array($userRest,"getEstudiantesProfesorByEmail"))
     ->map("GET","/usuario/getusuarios/$1", array($userRest,"getUsuario"))
     ->map("POST","/usuario/registro/",array($userRest,"registrar"))
+    ->map("POST","/usuario/registro/individual/",array($userRest,"registrarIndividual"))
     ->map("POST","/usuario/editar/",array($userRest,"editar"))
     ->map("DELETE","/usuario/eliminar/$1",array($userRest,"eliminar"));

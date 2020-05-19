@@ -46,7 +46,12 @@ class UserMapper {
     }
 
     public function registrarUsuario(Usuario $usuario) {
-        $stmt = $this->db->prepare("INSERT INTO usuario values (?,?,?,?,?)");
+        $stmt = $this->db->prepare("INSERT INTO usuario (email,nombre,apellidos,tipo,contrasena) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE email =?");
+        $stmt->execute(array($usuario->getEmail(), $usuario->getNombre(), $usuario->getApellidos(), $usuario->getTipo(), $usuario->getContrasena(),$usuario->getEmail()));
+    }
+
+    public function registrarUsuarioIndividual(Usuario $usuario) {
+        $stmt = $this->db->prepare("INSERT INTO usuario VALUES (?,?,?,?,?)");
         $stmt->execute(array($usuario->getEmail(), $usuario->getNombre(), $usuario->getApellidos(), $usuario->getTipo(), $usuario->getContrasena()));
     }
 

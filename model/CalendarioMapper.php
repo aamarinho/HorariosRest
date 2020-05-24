@@ -41,27 +41,27 @@ class CalendarioMapper {
         $responsable=$resul['email'];
 
         foreach($fechas as $fecha){
-            $stmt = $this->db->prepare("INSERT INTO calendario values ('',?,?,?,?,?,?,?,?)");
+            $stmt = $this->db->prepare("INSERT INTO horario values ('',?,?,?,?,?,?,?,?)");
             $stmt->execute(array("clase",$grupo->getId(),$grupo->getIdAsignatura(), $fecha ,$grupo->getHoraInicio(),$grupo->getHoraFin(), $responsable ,$grupo->getAula()));
         }
     }
 
     public function getCalendario($email) {
-        $stmt = $this->db->prepare("SELECT nombre,id_grupo,id_asignatura,fecha,hora_inicio,hora_fin,responsable,aula FROM calendario INNER JOIN usuariogrupo ON calendario.id_grupo=usuariogrupo.id WHERE usuariogrupo.email=?");
+        $stmt = $this->db->prepare("SELECT nombre,id_grupo,id_asignatura,fecha,hora_inicio,hora_fin,responsable,aula FROM horario INNER JOIN usuariogrupo ON horario.id_grupo=usuariogrupo.id WHERE usuariogrupo.email=?");
         $stmt->execute(array($email));
         $resul = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $resul;
     }
 
     public function getEventos() {
-        $stmt = $this->db->prepare("SELECT id,nombre,id_grupo,id_asignatura,fecha,hora_inicio,hora_fin,responsable,aula from calendario");
+        $stmt = $this->db->prepare("SELECT id,nombre,id_grupo,id_asignatura,fecha,hora_inicio,hora_fin,responsable,aula from horario");
         $stmt->execute();
         $resul = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $resul;
     }
 
     public function getGruposSinGenerar(){
-        $stmt = $this->db->prepare("SELECT gruporeducido.id,gruporeducido.tipo FROM gruporeducido WHERE gruporeducido.id NOT IN (SELECT DISTINCT calendario.id_grupo FROM calendario)");
+        $stmt = $this->db->prepare("SELECT gruporeducido.id,gruporeducido.id_asignatura,gruporeducido.tipo,gruporeducido.dia,gruporeducido.hora_inicio,gruporeducido.hora_fin,gruporeducido.aula FROM gruporeducido WHERE gruporeducido.id NOT IN (SELECT DISTINCT horario.id_grupo FROM horario)");
         $stmt->execute();
         $resul = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $resul;
@@ -72,19 +72,19 @@ class CalendarioMapper {
         $stmt->execute(array($calendario->getIdgrupo()));
         $asignatura = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $stmt = $this->db->prepare("INSERT INTO calendario values ('',?,?,?,?,?,?,?,?)");
+        $stmt = $this->db->prepare("INSERT INTO horario values ('',?,?,?,?,?,?,?,?)");
         $stmt->execute(array($calendario->getNombre(),$calendario->getIdgrupo(),$asignatura['id'],  $calendario->getFecha(), $calendario->getHoraInicio(), $calendario->getHoraFin(),$calendario->getResponsable(),$calendario->getAula()));
     }
 
     public function getActividadDocenteById($id) {
-        $stmt = $this->db->prepare("SELECT * FROM calendario where id=?");
+        $stmt = $this->db->prepare("SELECT * FROM horario where id=?");
         $stmt->execute(array($id));
         $resul = $stmt->fetch(PDO::FETCH_ASSOC);
         return $resul;
     }
 
     public function eliminar($id) {
-        $stmt = $this->db->prepare("DELETE from calendario WHERE id=?");
+        $stmt = $this->db->prepare("DELETE from horario WHERE id=?");
         if ($stmt->execute(array($id))) {
             return 1;
         } else return 0;
@@ -95,7 +95,7 @@ class CalendarioMapper {
         $stmt->execute(array($calendario->getIdgrupo()));
         $asignatura = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $stmt = $this->db->prepare("UPDATE calendario set nombre=?,id_grupo=?,id_asignatura=?,fecha=?,hora_inicio=?,hora_fin=?,responsable=?,aula=? where id=?");
+        $stmt = $this->db->prepare("UPDATE horario set nombre=?,id_grupo=?,id_asignatura=?,fecha=?,hora_inicio=?,hora_fin=?,responsable=?,aula=? where id=?");
         if($stmt->execute(array($calendario->getNombre(), $calendario->getIdgrupo(), $asignatura['id'], $calendario->getFecha(),$calendario->getHoraInicio(),$calendario->getHoraFin(),$calendario->getResponsable(),$calendario->getAula(),$calendario->getId()))){
             return true;
         } else return false;

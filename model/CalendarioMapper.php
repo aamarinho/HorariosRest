@@ -61,7 +61,7 @@ class CalendarioMapper {
     }
 
     public function getGruposSinGenerar(){
-        $stmt = $this->db->prepare("SELECT gruporeducido.id,gruporeducido.id_asignatura,gruporeducido.tipo,gruporeducido.dia,gruporeducido.hora_inicio,gruporeducido.hora_fin,gruporeducido.aula FROM gruporeducido WHERE gruporeducido.id NOT IN (SELECT DISTINCT horario.id_grupo FROM horario)");
+        $stmt = $this->db->prepare("SELECT gruporeducido.id,gruporeducido.id_asignatura,gruporeducido.tipo,gruporeducido.dia,gruporeducido.hora_inicio,gruporeducido.hora_fin,gruporeducido.aula FROM gruporeducido WHERE gruporeducido.id NOT IN (SELECT DISTINCT horario.id_grupo FROM horario wHERE horario.nombre='clase')");
         $stmt->execute();
         $resul = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $resul;

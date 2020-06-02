@@ -28,7 +28,7 @@ class UserMapper {
         $stmt = $this->db->prepare("SELECT email,nombre,apellidos,tipo from usuario WHERE tipo=3");
         $stmt->execute();
         $resul = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return $resul;//devuelve el array con la respuesta
+        return $resul;
     }
 
     public function getProfesores() {
@@ -78,6 +78,13 @@ class UserMapper {
             array_push($estudiantes,$e);
         }
         return $estudiantes;
+    }
+
+    public function getEstudiantesParaMatricular($asignatura) {
+        $stmt = $this->db->prepare("SELECT usuario.email,usuario.nombre,usuario.apellidos FROM usuario WHERE usuario.email NOT IN (SELECT usuarioasignatura.email FROM usuarioasignatura INNER JOIN asignatura ON usuarioasignatura.id=asignatura.id WHERE asignatura.id=?) AND usuario.tipo=3");
+        $stmt->execute(array($asignatura));
+        $resul = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $resul;
     }
 
     public function getEstudiantesProfesorByEmail($email) {

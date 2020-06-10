@@ -34,6 +34,7 @@ class UsuarioRest extends BaseRest {
 	}
 
     public function getEstudiantes(){
+        parent::comprobarTipo(1);
         $userArray = $this->userMapper->getEstudiantes();//en $userArray tenemos el array de los estudiantes (usuarios tipo=3)
         header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');//manda la cabecera server protocol con 200 ok
         header('Content-Type: application/json');//manda la cabecera content-type que es json
@@ -41,6 +42,7 @@ class UsuarioRest extends BaseRest {
     }
 
     public function getProfesores(){
+        parent::comprobarTipo(1);
         $userArray = $this->userMapper->getProfesores();
         header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');
         header('Content-Type: application/json');
@@ -48,6 +50,7 @@ class UsuarioRest extends BaseRest {
     }
 
     public function getUsuarios(){
+        parent::comprobarTipo(1);
         $userArray = $this->userMapper->getUsuarios();
         header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');
         header('Content-Type: application/json');
@@ -55,6 +58,7 @@ class UsuarioRest extends BaseRest {
     }
 
     public function registrar(){
+        parent::comprobarTipo(1);
         $data = $_POST['usuario'];
         $data = json_decode($data,true);
         $user = new Usuario($data['email'],$data['nombre'],$data['apellidos'],$data['tipo'],$data['contrasena']);
@@ -65,6 +69,7 @@ class UsuarioRest extends BaseRest {
     }
 
     public function registrarIndividual(){
+        parent::comprobarTipo(1);
         $data = $_POST['usuario'];
         $data = json_decode($data,true);
         $user = new Usuario($data['email'],$data['nombre'],$data['apellidos'],$data['tipo'],$data['contrasena']);
@@ -85,6 +90,7 @@ class UsuarioRest extends BaseRest {
     }
 
     public function getEstudiantesProfesor($asignatura){
+        parent::comprobarTipo(2);
         $estudiantes = $this->userMapper->getEstudiantesProfesor($asignatura);
         header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
         header('Content-Type: application/json');
@@ -92,6 +98,7 @@ class UsuarioRest extends BaseRest {
     }
 
     public function getEstudiantesParaMatricular($asignatura){
+        parent::comprobarTipo(2);
         $estudiantes = $this->userMapper->getEstudiantesParaMatricular($asignatura);
         header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
         header('Content-Type: application/json');
@@ -99,6 +106,7 @@ class UsuarioRest extends BaseRest {
     }
 
     public function getEstudiantesProfesorByEmail($email){
+	    parent::comprobarVariosTipos(1,2);
         $estudiantes = $this->userMapper->getEstudiantesProfesorByEmail($email);
         header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
         header('Content-Type: application/json');
@@ -113,6 +121,7 @@ class UsuarioRest extends BaseRest {
     }
 
     public function eliminar($email){
+        parent::comprobarTipo(1);
         $resul = $this->userMapper->eliminar($email);
         if($resul==1){
             header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');

@@ -16,6 +16,7 @@ class AsignaturaRest extends BaseRest
     }
 
     public function getAsignaturas() {
+        parent::comprobarTipo(1);
         $asignaturas = $this->asignaturaMapper->getAsignaturas();
         header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
         header('Content-Type: application/json');
@@ -23,6 +24,7 @@ class AsignaturaRest extends BaseRest
     }
 
     public function getAsignaturaById($id) {
+        parent::comprobarTipo(1);
         $asignaturas = $this->asignaturaMapper->getAsignaturaById($id);
         header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
         header('Content-Type: application/json');
@@ -30,6 +32,7 @@ class AsignaturaRest extends BaseRest
     }
 
     public function getAsignaturasProfesor($email){
+        parent::comprobarTipo(2);
         $asignaturas = $this->asignaturaMapper->getAsignaturasProfesor($email);
         header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
         header('Content-Type: application/json');
@@ -37,6 +40,7 @@ class AsignaturaRest extends BaseRest
     }
 
     public function registrar(){
+        parent::comprobarTipo(1);
         $data = $_POST['asignatura'];
         $data = json_decode($data,true);
         $asignatura = new Asignatura($data['id'],$data['nombre'],$data['email'],$data['curso'],$data['cuatrimestre']);
@@ -47,6 +51,7 @@ class AsignaturaRest extends BaseRest
     }
 
     public function editarAsignatura(){
+        parent::comprobarTipo(1);
         $data = $_POST['asignatura'];
         $data = json_decode($data,true);
         $asignatura = new Asignatura($data['id'],$data['nombre'],$data['email'],$data['curso'],$data['cuatrimestre']);
@@ -57,6 +62,7 @@ class AsignaturaRest extends BaseRest
     }
 
     public function eliminar($id){
+        parent::comprobarTipo(1);
         $resul = $this->asignaturaMapper->eliminar($id);
         if($resul==1){
             header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');

@@ -14,20 +14,23 @@ class GrupoReducidoRest extends BaseRest {
     }
 
     public function getGrupos(){
+        parent::comprobarTipo(1);
         $gruposArray = $this->grupoMapper->getGrupos();
         header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');
         header('Content-Type: application/json');
         echo(json_encode($gruposArray));
     }
 
-    public function getGruposSinAsignados($email){
+    /*public function getGruposSinAsignados($email){
+        parent::comprobarTipo(1);
         $gruposArray = $this->grupoMapper->getGruposSinAsignados($email);
         header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');
         header('Content-Type: application/json');
         echo(json_encode($gruposArray));
-    }
+    }*/
 
     public function getGrupoById($id) {
+        parent::comprobarTipo(1);
         $grupos = $this->grupoMapper->getGrupoById($id);
         header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
         header('Content-Type: application/json');
@@ -35,6 +38,7 @@ class GrupoReducidoRest extends BaseRest {
     }
 
     public function countGrupos($idasignatura) {
+        parent::comprobarTipo(1);
         $grupos = $this->grupoMapper->countGrupos($idasignatura);
         header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
         header('Content-Type: application/json');
@@ -42,6 +46,7 @@ class GrupoReducidoRest extends BaseRest {
     }
 
     public function registrar(){
+        parent::comprobarTipo(1);
         $data = $_POST['grupo'];
         $data = json_decode($data,true);
         $grupo = new GrupoReducido($data['id'],$data['id_asignatura'],$data['tipo'],$data['dia'],$data['hora_inicio'],$data['hora_fin'],$data['aula']);
@@ -52,6 +57,7 @@ class GrupoReducidoRest extends BaseRest {
     }
 
     public function editarGrupo(){
+        parent::comprobarTipo(1);
         $data = $_POST['grupo'];
         $data = json_decode($data,true);
         $grupo = new GrupoReducido($data['id'],$data['id_asignatura'],$data['tipo'],$data['dia'],$data['hora_inicio'],$data['hora_fin'],$data['aula']);
@@ -62,6 +68,7 @@ class GrupoReducidoRest extends BaseRest {
     }
 
     public function eliminar($id){
+        parent::comprobarTipo(1);
         $resul = $this->grupoMapper->eliminar($id);
         if($resul==1){
             header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');

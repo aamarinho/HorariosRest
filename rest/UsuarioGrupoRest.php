@@ -16,6 +16,7 @@ class UsuarioGrupoRest extends BaseRest {
     }
 
     public function getUsuariosGrupos($email){
+        parent::comprobarVariosTipos(1,2);
         $usuariosgrupos = $this->usuarioGrupoMapper->getUsuariosGrupos($email);
         header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
         header('Content-Type: application/json');
@@ -23,6 +24,7 @@ class UsuarioGrupoRest extends BaseRest {
     }
 
     public function getUsuariosGruposSinAsignados($email){
+        parent::comprobarTipo(1);
         $usuariosgrupos = $this->usuarioGrupoMapper->getGruposSinAsignados($email);
         header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
         header('Content-Type: application/json');
@@ -31,6 +33,7 @@ class UsuarioGrupoRest extends BaseRest {
 
 
     public function getUsuariosGruposEstudiante($asignatura,$email2){
+        parent::comprobarTipo(2);
         $estudiantes = $this->usuarioGrupoMapper->getUsuariosGruposEstudiante($asignatura,$email2);
         header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
         header('Content-Type: application/json');
@@ -38,6 +41,7 @@ class UsuarioGrupoRest extends BaseRest {
     }
 
     public function getUsuariosGruposProfesor($asignatura,$email){
+        parent::comprobarVariosTipos(1,2);
         $estudiantes = $this->usuarioGrupoMapper->getUsuariosGruposProfesor($asignatura,$email);
         header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
         header('Content-Type: application/json');
@@ -45,6 +49,7 @@ class UsuarioGrupoRest extends BaseRest {
     }
 
     public function registrar() {
+        parent::comprobarVariosTipos(1,2);
         $data = $_POST['grupos'];
         $data2 = $_POST['email'];
         $data = json_decode($data, true);
@@ -59,6 +64,7 @@ class UsuarioGrupoRest extends BaseRest {
     }
 
     public function registrarImportacion() {
+        parent::comprobarTipo(1);
         $data = $_POST['grupos'];
         $data2 = $_POST['email'];
         $data = json_decode($data, true);
@@ -73,6 +79,7 @@ class UsuarioGrupoRest extends BaseRest {
     }
 
     public function eliminar($email,$id){
+        parent::comprobarVariosTipos(1,2);
         $resul = $this->usuarioGrupoMapper->eliminar($email,$id);
         if($resul==1){
             header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');

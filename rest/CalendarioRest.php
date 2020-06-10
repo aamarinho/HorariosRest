@@ -18,6 +18,7 @@ class CalendarioRest extends BaseRest {
     }
 
     public function registrar() {
+        parent::comprobarTipo(1);
         $data = $_POST['grupos'];
         $data = json_decode($data, true);
         foreach ($data as $value) {
@@ -36,6 +37,7 @@ class CalendarioRest extends BaseRest {
     }
 
     public function getActividadDocente($id){
+        parent::comprobarTipo(2);
         $usuario = $this->calendarioMapper->getActividadDocenteById($id);
         header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
         header('Content-Type: application/json');
@@ -43,6 +45,7 @@ class CalendarioRest extends BaseRest {
     }
 
     public function getEventos(){
+        parent::comprobarTipo(2);
         $resul = $this->calendarioMapper->getEventos();
         header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');
         header('Content-Type: application/json');
@@ -50,6 +53,7 @@ class CalendarioRest extends BaseRest {
     }
 
     public function getGruposSinGenerar(){
+        parent::comprobarTipo(1);
         $resul = $this->calendarioMapper->getGruposSinGenerar();
         header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');
         header('Content-Type: application/json');
@@ -57,6 +61,7 @@ class CalendarioRest extends BaseRest {
     }
 
     public function registrarActividadDocente() {
+        parent::comprobarTipo(2);
         $data = $_POST['calendario'];
         $data = json_decode($data, true);
         $calendario = new Calendario('',$data['nombre'],$data['id_grupo'],'',$data['fecha'],$data['hora_inicio'],$data['hora_fin'],$data['responsable'],$data['aula']);
@@ -67,6 +72,7 @@ class CalendarioRest extends BaseRest {
     }
 
     public function editarActividadDocente(){
+        parent::comprobarTipo(2);
         $data = $_POST['calendario'];
         $data = json_decode($data,true);
         $calendario = new Calendario($data['id'],$data['nombre'],$data['id_grupo'],$data['id_asignatura'],$data['fecha'],$data['hora_inicio'],$data['hora_fin'],$data['responsable'],$data['aula']);
@@ -77,6 +83,7 @@ class CalendarioRest extends BaseRest {
     }
 
     public function eliminar($id){
+        parent::comprobarTipo(2);
         $resul = $this->calendarioMapper->eliminar($id);
         if($resul==1){
             header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');

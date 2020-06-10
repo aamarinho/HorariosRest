@@ -14,6 +14,7 @@ class ConfiguracionRest extends BaseRest {
     }
 
     public function getConfiguracion(){
+        parent::comprobarTipo(1);
         $configuracion = $this->configuracionMapper->getConfiguracion();
         header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
         header('Content-Type: application/json');
@@ -21,6 +22,7 @@ class ConfiguracionRest extends BaseRest {
     }
 
     public function editar(){
+        parent::comprobarTipo(1);
         $data = $_POST['configuracion'];
         $data = json_decode($data,true);
         $configuracion = new Configuracion($data['id'],$data['f_inicio_uno'],$data['f_fin_uno'],$data['f_inicio_dos'],$data['f_fin_dos']);

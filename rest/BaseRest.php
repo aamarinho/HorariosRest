@@ -26,8 +26,6 @@ class BaseRest {
 	* @return Usuario the user just authenticated.
 	*/
 	public function usuarioAutenticado() {
-
-
 		if (!isset($_SERVER['PHP_AUTH_USER'])) {
 			header($_SERVER['SERVER_PROTOCOL'].' 401 Unauthorized');
 			header('WWW-Authenticate: Basic realm="REST API ResidenciaAPP"');
@@ -41,11 +39,30 @@ class BaseRest {
 
             } else {
 				header($_SERVER['SERVER_PROTOCOL'].' 401 Unauthorized');
-				header('WWW-Authenticate: Basic realm="REST SalmonDrive"');
+				header('WWW-Authenticate: Basic realm="REST Gestion de Horarios Personalizada"');
 
 				die('No tienes permiso');
 			}
 		}
 	}
+
+	public function comprobarTipo($tipo){
+	    $usuarioactual = $this->usuarioAutenticado();
+	    if($usuarioactual->getTipo()!=$tipo){
+            header($_SERVER['SERVER_PROTOCOL'].' 401 Unauthorized');
+            header('WWW-Authenticate: Basic realm="REST Gestion de Horarios Personalizada"');
+            die('No tienes permiso');
+        }
+    }
+
+    public function comprobarVariosTipos($tipo1,$tipo2){
+        $usuarioactual = $this->usuarioAutenticado();
+        echo $this->usuarioAutenticado()->getTipo();
+        if($usuarioactual->getTipo()!=$tipo1 && $usuarioactual->getTipo()!=$tipo2){
+            header($_SERVER['SERVER_PROTOCOL'].' 401 Unauthorized');
+            header('WWW-Authenticate: Basic realm="REST Gestion de Horarios Personalizada"');
+            die('No tienes permiso');
+        }
+    }
 
 }

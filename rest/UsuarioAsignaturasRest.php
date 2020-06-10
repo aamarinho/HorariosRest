@@ -16,6 +16,7 @@ class UsuarioAsignaturasRest extends BaseRest {
     }
 
     public function registrar() {
+        parent::comprobarTipo(1);
         $data = $_POST['asignaturas'];
         $data2 = $_POST['email'];
         $data = json_decode($data, true);
@@ -30,6 +31,7 @@ class UsuarioAsignaturasRest extends BaseRest {
     }
 
     public function registrarAsignaturas() {//importacion
+        parent::comprobarTipo(1);
         $data = $_POST['asignaturas'];
         $data2 = $_POST['email'];
         $data = json_decode($data, true);
@@ -44,6 +46,7 @@ class UsuarioAsignaturasRest extends BaseRest {
     }
 
     public function registrarAsignaturasProfesor() {//importacionprofesores
+        parent::comprobarTipo(1);
         $data = $_POST['asignaturas'];
         $data2 = $_POST['email'];
         $data = json_decode($data, true);
@@ -58,6 +61,7 @@ class UsuarioAsignaturasRest extends BaseRest {
     }
 
     public function registrarUsuarioAsignatura() {
+        parent::comprobarTipo(2);
         $data = $_POST['asignatura'];
         $data2 = $_POST['email'];
         $data = json_decode($data, true);
@@ -71,6 +75,7 @@ class UsuarioAsignaturasRest extends BaseRest {
     }
 
     public function getUsuariosAsignaturas($email){
+        parent::comprobarTipo(1);
         $usuariosasignaturas = $this->usuarioAsignaturasMapper->getUsuariosAsignaturas($email);
         header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
         header('Content-Type: application/json');
@@ -78,14 +83,15 @@ class UsuarioAsignaturasRest extends BaseRest {
     }
 
     public function getUsuariosAsignaturasSinAsignados($email){
+        parent::comprobarTipo(1);
         $usuariosasignaturas = $this->usuarioAsignaturasMapper->getUsuariosAsignaturasSinAsignados($email);
         header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
         header('Content-Type: application/json');
         echo(json_encode($usuariosasignaturas));
     }
 
-
     public function eliminar($email,$id){
+        parent::comprobarVariosTipos(1,2);
         $resul = $this->usuarioAsignaturasMapper->eliminar($email,$id);
         if($resul==1){
             header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');

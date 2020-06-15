@@ -1,6 +1,5 @@
 <?php
 require_once(__DIR__ . "/../model/GrupoReducido.php");
-require_once(__DIR__."/../core/ValidationException.php");
 require_once(__DIR__."/../model/GrupoReducidoMapper.php");
 require_once(__DIR__ . "/BaseRest.php");
 
@@ -14,23 +13,13 @@ class GrupoReducidoRest extends BaseRest {
     }
 
     public function getGrupos(){
-        parent::comprobarTipo(1);
         $gruposArray = $this->grupoMapper->getGrupos();
         header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');
         header('Content-Type: application/json');
         echo(json_encode($gruposArray));
     }
 
-    /*public function getGruposSinAsignados($email){
-        parent::comprobarTipo(1);
-        $gruposArray = $this->grupoMapper->getGruposSinAsignados($email);
-        header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');
-        header('Content-Type: application/json');
-        echo(json_encode($gruposArray));
-    }*/
-
     public function getGrupoById($id) {
-        parent::comprobarTipo(1);
         $grupos = $this->grupoMapper->getGrupoById($id);
         header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
         header('Content-Type: application/json');
@@ -38,7 +27,6 @@ class GrupoReducidoRest extends BaseRest {
     }
 
     public function countGrupos($idasignatura) {
-        parent::comprobarTipo(1);
         $grupos = $this->grupoMapper->countGrupos($idasignatura);
         header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
         header('Content-Type: application/json');

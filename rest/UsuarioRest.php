@@ -1,6 +1,5 @@
 <?php
 require_once(__DIR__ . "/../model/Usuario.php");
-require_once(__DIR__."/../core/ValidationException.php");
 require_once(__DIR__."/../model/UserMapper.php");
 require_once(__DIR__ . "/BaseRest.php");
 
@@ -34,15 +33,13 @@ class UsuarioRest extends BaseRest {
 	}
 
     public function getEstudiantes(){
-        parent::comprobarTipo(1);
-        $userArray = $this->userMapper->getEstudiantes();//en $userArray tenemos el array de los estudiantes (usuarios tipo=3)
-        header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');//manda la cabecera server protocol con 200 ok
-        header('Content-Type: application/json');//manda la cabecera content-type que es json
-        echo(json_encode($userArray)); //devuelve un string del objeto json. ¿como le da el dato?
+        $userArray = $this->userMapper->getEstudiantes();
+        header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');
+        header('Content-Type: application/json');
+        echo(json_encode($userArray));
     }
 
     public function getProfesores(){
-        parent::comprobarTipo(1);
         $userArray = $this->userMapper->getProfesores();
         header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');
         header('Content-Type: application/json');
@@ -50,7 +47,6 @@ class UsuarioRest extends BaseRest {
     }
 
     public function getUsuarios(){
-        parent::comprobarTipo(1);
         $userArray = $this->userMapper->getUsuarios();
         header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');
         header('Content-Type: application/json');
@@ -90,7 +86,6 @@ class UsuarioRest extends BaseRest {
     }
 
     public function getEstudiantesProfesor($asignatura){
-        parent::comprobarTipo(2);
         $estudiantes = $this->userMapper->getEstudiantesProfesor($asignatura);
         header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
         header('Content-Type: application/json');
@@ -98,7 +93,6 @@ class UsuarioRest extends BaseRest {
     }
 
     public function getEstudiantesParaMatricular($asignatura){
-        parent::comprobarTipo(2);
         $estudiantes = $this->userMapper->getEstudiantesParaMatricular($asignatura);
         header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
         header('Content-Type: application/json');
@@ -106,7 +100,6 @@ class UsuarioRest extends BaseRest {
     }
 
     public function getEstudiantesProfesorByEmail($email){
-	    parent::comprobarVariosTipos(1,2);
         $estudiantes = $this->userMapper->getEstudiantesProfesorByEmail($email);
         header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
         header('Content-Type: application/json');

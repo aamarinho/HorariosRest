@@ -6,7 +6,6 @@ require_once(__DIR__ . "/BaseRest.php");
 require_once(__DIR__ . "/../model/GrupoReducido.php");
 require_once(__DIR__ . "/../model/CalendarioMapper.php");
 require_once(__DIR__ . "/../model/Calendario.php");
-require_once(__DIR__."/../core/ValidationException.php");
 
 class CalendarioRest extends BaseRest {
     private $calendarioMapper;
@@ -37,7 +36,6 @@ class CalendarioRest extends BaseRest {
     }
 
     public function getActividadDocente($id){
-        parent::comprobarTipo(2);
         $usuario = $this->calendarioMapper->getActividadDocenteById($id);
         header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
         header('Content-Type: application/json');
@@ -45,7 +43,6 @@ class CalendarioRest extends BaseRest {
     }
 
     public function getEventos(){
-        parent::comprobarTipo(2);
         $resul = $this->calendarioMapper->getEventos();
         header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');
         header('Content-Type: application/json');
@@ -53,7 +50,6 @@ class CalendarioRest extends BaseRest {
     }
 
     public function getGruposSinGenerar(){
-        parent::comprobarTipo(1);
         $resul = $this->calendarioMapper->getGruposSinGenerar();
         header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');
         header('Content-Type: application/json');

@@ -4,7 +4,6 @@ require_once(__DIR__."/../model/UsuarioAsignaturasMapper.php");
 require_once(__DIR__."/../model/UsuarioAsignaturas.php");
 require_once(__DIR__ . "/BaseRest.php");
 require_once(__DIR__ . "/../model/Asignatura.php");
-require_once(__DIR__."/../core/ValidationException.php");
 
 class UsuarioAsignaturasRest extends BaseRest {
     private $usuarioAsignaturasMapper;
@@ -75,7 +74,6 @@ class UsuarioAsignaturasRest extends BaseRest {
     }
 
     public function getUsuariosAsignaturas($email){
-        parent::comprobarTipo(1);
         $usuariosasignaturas = $this->usuarioAsignaturasMapper->getUsuariosAsignaturas($email);
         header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
         header('Content-Type: application/json');
@@ -83,7 +81,6 @@ class UsuarioAsignaturasRest extends BaseRest {
     }
 
     public function getUsuariosAsignaturasSinAsignados($email){
-        parent::comprobarTipo(1);
         $usuariosasignaturas = $this->usuarioAsignaturasMapper->getUsuariosAsignaturasSinAsignados($email);
         header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
         header('Content-Type: application/json');

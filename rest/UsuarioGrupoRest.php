@@ -4,7 +4,6 @@ require_once(__DIR__."/../model/UsuarioGrupoMapper.php");
 require_once(__DIR__."/../model/UsuarioGrupo.php");
 require_once(__DIR__ . "/BaseRest.php");
 require_once(__DIR__ . "/../model/GrupoReducido.php");
-require_once(__DIR__."/../core/ValidationException.php");
 
 class UsuarioGrupoRest extends BaseRest {
     private $usuarioGrupoMapper;
@@ -16,7 +15,6 @@ class UsuarioGrupoRest extends BaseRest {
     }
 
     public function getUsuariosGrupos($email){
-        parent::comprobarVariosTipos(1,2);
         $usuariosgrupos = $this->usuarioGrupoMapper->getUsuariosGrupos($email);
         header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
         header('Content-Type: application/json');
@@ -24,7 +22,6 @@ class UsuarioGrupoRest extends BaseRest {
     }
 
     public function getUsuariosGruposSinAsignados($email){
-        parent::comprobarTipo(1);
         $usuariosgrupos = $this->usuarioGrupoMapper->getGruposSinAsignados($email);
         header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
         header('Content-Type: application/json');
@@ -33,7 +30,6 @@ class UsuarioGrupoRest extends BaseRest {
 
 
     public function getUsuariosGruposEstudiante($asignatura,$email2){
-        parent::comprobarTipo(2);
         $estudiantes = $this->usuarioGrupoMapper->getUsuariosGruposEstudiante($asignatura,$email2);
         header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
         header('Content-Type: application/json');
@@ -41,7 +37,6 @@ class UsuarioGrupoRest extends BaseRest {
     }
 
     public function getUsuariosGruposProfesor($asignatura,$email){
-        parent::comprobarVariosTipos(1,2);
         $estudiantes = $this->usuarioGrupoMapper->getUsuariosGruposProfesor($asignatura,$email);
         header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
         header('Content-Type: application/json');

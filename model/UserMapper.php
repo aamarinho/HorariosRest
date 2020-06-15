@@ -9,7 +9,7 @@ class UserMapper {
     }
 
 
-    public function login($username, $passwd) { //cambiar
+    public function login($username, $passwd) {
         $stmt = $this->db->prepare("SELECT count(email) FROM usuario where email=? and contrasena=?");
         $stmt->execute(array($username, $passwd));
         if ($stmt->fetchColumn() > 0) {

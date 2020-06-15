@@ -1,6 +1,5 @@
 <?php
 require_once(__DIR__ . "/../model/Configuracion.php");
-require_once(__DIR__."/../core/ValidationException.php");
 require_once(__DIR__."/../model/ConfiguracionMapper.php");
 require_once(__DIR__ . "/BaseRest.php");
 
@@ -14,7 +13,6 @@ class ConfiguracionRest extends BaseRest {
     }
 
     public function getConfiguracion(){
-        parent::comprobarTipo(1);
         $configuracion = $this->configuracionMapper->getConfiguracion();
         header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
         header('Content-Type: application/json');

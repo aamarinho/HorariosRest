@@ -28,7 +28,7 @@ class BaseRest {
 	public function usuarioAutenticado() {
 		if (!isset($_SERVER['PHP_AUTH_USER'])) {
 			header($_SERVER['SERVER_PROTOCOL'].' 401 Unauthorized');
-			header('WWW-Authenticate: Basic realm="REST API ResidenciaAPP"');
+			header('WWW-Authenticate: Basic realm="REST Gestion de Horarios Personalizada"');
 			die('Necesitas loguearte');
 		}
 		else {
@@ -46,6 +46,10 @@ class BaseRest {
 		}
 	}
 
+    /**
+     * funcion usada para comprobar si un usuario tiene permiso para realizar una petición
+     * @param $tipo
+     */
 	public function comprobarTipo($tipo){
 	    $usuarioactual = $this->usuarioAutenticado();
 	    if($usuarioactual->getTipo()!=$tipo){
@@ -55,6 +59,11 @@ class BaseRest {
         }
     }
 
+    /**
+     * funcion usada para comprobar si varios usuarios tienen permiso para realizar una petición
+     * @param $tipo1
+     * @param $tipo2
+     */
     public function comprobarVariosTipos($tipo1,$tipo2){
         $usuarioactual = $this->usuarioAutenticado();
         echo $this->usuarioAutenticado()->getTipo();
